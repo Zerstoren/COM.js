@@ -45,3 +45,5 @@ window.packeg = function(path, obj) {
 };
 
 })();
+
+packeg('_', _);
