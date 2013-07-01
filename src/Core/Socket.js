@@ -166,7 +166,7 @@
 
 
     Object.extend(
-        Socket.prototype,
+        Socket,
         packeg('COM.Events.Observer')
     );
 
