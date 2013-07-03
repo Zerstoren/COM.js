@@ -1,11 +1,12 @@
 (function() {
     var LayerCalculateWorker = function() {
+        var ShapesIndex = {};
         var ShapesDraw = [];
         var ShapesConfig = [];
         var CanvasSize = {width: 0, height: 0};
+        var GlobalClear = {};
 
         var $isEquals = function(a, b) {
-            debugger;
             for(var i in a) {
                 if(a[i] instanceof Array) {
                     continue;
@@ -29,8 +30,60 @@
             return target;
         };
 
+        var $itemsIsCrossed = function(source, target) {
+            var sourceRect = {
+                from: {
+                    x: source.Position.x,
+                    y: source.Position.y
+                },
+
+                to: {
+                    x: source.Position.x + source.Size.width,
+                    y: soruce.Position.y + source.Size.height
+                }
+            };
+
+            var targetRect = {
+                from: {
+                    x: source.Position.x,
+                    y: source.Position.y
+                },
+
+                to: {
+                    x: source.Position.x + source.Size.width,
+                    y: soruce.Position.y + source.Size.height
+                }
+            };
+
+            return (
+                source.from.y < target.to.y ||
+                source.to.y > target.from.y ||
+                source.to.x < target.from.x ||
+                source.from.x > target.to.x
+            )
+/**
+var intersects = function ( a, b ) {
+    return ( a.y < b.y1 || a.y1 > b.y || a.x1 < b.x || a.x > b.x1 );
+}
+
+(a.x,a.y)--------------|
+   |                   |
+   |                   |
+   |                   |
+   |---------------(a.x1,a.y1)
+(b.x,b.y)---------------------|
+   |                          |
+   |                          |
+   |                          |
+   |---------------------(b.x1,b.y1)
+
+ */
+        };
+
         function newFigure(value) {
             value.info.Updated = true;
+
+            ShapesIndex[value.info.DrawName] = value.info;
             ShapesDraw.push(value.info);
             ShapesConfig.push(value.config);
         }
@@ -51,7 +104,10 @@
         }
 
         function drawPrepare(items) {
-            var name;
+            var name,
+                count = 0,
+                clear = [],
+                namesForUpdate = [];
 
             // Ищем инфу, о тех кому 100% надо обновление
             ShapesDraw.map(function(shape) {
@@ -63,22 +119,40 @@
                 if($isEquals(shape, items[name]) === false) {
                     shape.Updated = true;
                     shape.newData = items[name];
+                    count += 1;
+                    namesForUpdate.push(shape.DrawName);
                 }
+            });
+
+            if(count >= (ShapesDraw.length / 2)) {
+                clear.push({
+                    x: 0,
+                    y: 0,
+                    width: CanvasSize.width,
+                    height: CanvasSize.height
+                });
+
+                self.clearPositions(clear);
+            } else {
+                connectionsItemFindToClear(namesForUpdate);
+            }
+        }
+
+        function connectionsItemFindToClear(names) {
+            var namesForUpdate;
+
+            names.map(function(item) {
+
+                self.log(ShapesIndex[item]);
             });
         }
 
-        function clearPositions() {
-            self.message('clear', [{
-                x: 0, y: 0,
-                width: CanvasSize.width,
-                height: CanvasSize.height
-            }]);
+        function clearPositions(items) {
+            self.message('clear', items);
         }
 
         function startDraw() {
             var i, max, newData;
-
-            clearPositions();
 
             draw = [];
             for(i = 0, max = ShapesDraw.length; i < max; i++) {
