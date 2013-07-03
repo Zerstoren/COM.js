@@ -27,15 +27,15 @@
 
             if(self.layer) {
                 self.layer.fireEvent('update');
-            };
+            }
 
-            if(frames == 0) {
+            if(frames === 0) {
                 clearInterval(interval);
                 self.setPosition(x, y);
 
                 if(self.layer) {
                     self.layer.fireEvent('update');
-                };
+                }
 
                 self.moveToAnimation = false;
             }

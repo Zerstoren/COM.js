@@ -32,7 +32,7 @@
 
     var Context2d = function(canvas) {
         this.ctx = canvas.getContext('2d');
-    }
+    };
 
     Object.extend(
         Context2d,

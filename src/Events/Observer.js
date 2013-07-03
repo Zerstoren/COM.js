@@ -36,7 +36,7 @@
 
         for(i = 0, max = globalEventListeners.length; i < max; i++) {
             globalEventListeners[i](eventName, eventValue);
-        };
+        }
     };
 
     /**

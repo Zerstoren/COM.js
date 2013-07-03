@@ -10,7 +10,8 @@
     Dom.$super = 'DomEvents';
 
     Dom.init = function(element, config, isFormELement) {
-        var $ = packeg('$');
+        var ev,
+            $ = packeg('$');
 
         this.$DomEvents_Element = $(element);
 
@@ -53,9 +54,11 @@
         }
 
         this.domEventsRegister(config);
-    }
+    };
 
     Dom.domEventsRegister = function(config) {
+        var item;
+
         if(!config) {
             return;
         }

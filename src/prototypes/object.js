@@ -47,7 +47,7 @@ Object.extend = function() {
         length = arguments.length;
 
     for(; i < length; i++) {
-        if((options = arguments[i]) == null) {
+        if((options = arguments[i]) === undefined) {
             continue;
         }
 
@@ -71,6 +71,7 @@ Object.extend = function() {
 
 
 Object.merge = function(target, source) {
+    var name;
     for(name in source) {
         target[name] = source[name];
     }

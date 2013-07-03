@@ -18,7 +18,7 @@
     Img.prototype.setImage = function(image) {
         this.DrawImage = image;
         return this;
-    }
+    };
 
     Object.extend(
         Img,

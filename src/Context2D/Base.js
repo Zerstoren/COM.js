@@ -45,7 +45,7 @@
      */
     Base.revertSaveStyle = function(listOfParams) {
         var i, max, param, params = {};
-        for(var i = 0, max = listOfParams.length; i < max; i++) {
+        for(i = 0, max = listOfParams.length; i < max; i++) {
             param = listOfParams[i];
             params[param] = this.ctx[param];
         }

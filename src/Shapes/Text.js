@@ -16,7 +16,7 @@
             family: 'Verdana',
             weight: 'normal',
             style: 'normal',
-            variant: 'normal',
+            variant: 'normal'
         };
 
         this.setDrawInfo({
@@ -42,7 +42,7 @@
                 console.log('Данный текст не поместиться полностью в область прямоугольника');
                 console.trace();
             }
-        };
+        }
 
         return this;
     };
