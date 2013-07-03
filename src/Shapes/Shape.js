@@ -19,7 +19,7 @@
 
         this.DrawInfo = {};
         this.DrawInfo.DrawObjectName = _.uniqueId();
-        this.DrawInfo.DrawType = 'fill'
+        this.DrawInfo.DrawType = 'fill';
         this.DrawInfo.DrawAction = 'rect';
         this.DrawInfo.DrawFrom = 'from';
         this.DrawInfo.DrawStyle = {
@@ -118,7 +118,7 @@
             if(this.DrawInfo.DrawStyleApply[0] === param) {
                 Array.remove(this.DrawInfo.DrawStyleApply, this.DrawInfo.DrawStyleApply[0]);
             }
-        };
+        }
 
         return this;
     };
@@ -182,4 +182,3 @@
 
     packeg('COM.Shapes.Shape', Shape);
 })();
-

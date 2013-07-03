@@ -32,7 +32,7 @@
         shape.unsubscribe_for_all(this.$GroupShapes_SubscibeForAll.bind(this, shape));
         Array.remove(this.group, shape);
         return this;
-    }
+    };
 
     /**
      * Вызывает указаную функцию у объектов из группы
@@ -62,7 +62,7 @@
      */
     GroupShapes.prototype.getGroup = function() {
         return this.group;
-    }
+    };
 
     /**
      * Возвращает прямоугольник, в которой входят все фигуры

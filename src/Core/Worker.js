@@ -80,7 +80,7 @@
         WorkerProto,
         packeg('COM.Extend'),
         packeg('COM.Events.Observer')
-    )
+    );
 
     packeg('COM.Core.Worker', WorkerProto);
 })();

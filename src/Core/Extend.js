@@ -35,7 +35,7 @@
                 throw new Error('Method can`t be added to this class. But for add parent don`t set `$super` name');
             }
 
-            var name = '$$super_' + $super + '_' + name;
+            name = '$$super_' + $super + '_' + name;
         }
 
         this[name] = fn;

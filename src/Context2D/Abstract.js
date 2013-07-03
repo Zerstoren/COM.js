@@ -29,7 +29,7 @@
         // В отрисовку может прийти объект-группа. Для этого пройдемся по всем элементам
         // группы и отрисуем их по очереди или просто утянем кэш
         if(obj.isGroup) {
-            group = obj.getGroup()
+            group = obj.getGroup();
             for(i = 0, max = group.length; i < max; i++) {
                 this.draw(group[i]);
             }

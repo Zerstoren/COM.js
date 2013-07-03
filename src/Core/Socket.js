@@ -48,7 +48,7 @@
         this.ws.onopen = this.onOpen.bind(this);
         this.ws.onclose = this.onClose.bind(this);
         this.ws.onmessage = this.onMessage.bind(this);
-    }
+    };
 
     /**
      * Отправка сообщения на сервер
@@ -90,11 +90,11 @@
      * @return {void}
      */
     Socket.prototype.subscribe = function(eventName, eventFn) {
-        var eventName = '$' + eventName;
+        eventName = '$' + eventName;
 
         if(this.hasEvent(eventName) === false) {
             this.registerEvents([eventName]);
-        };
+        }
 
         this.super('Observer', 'subscribe', [eventName, eventFn]);
     };
@@ -106,11 +106,11 @@
      * @return {void}
      */
     Socket.prototype.unsubscribe = function(eventName, eventFn) {
-        var eventName = '$' + eventName;
+        eventName = '$' + eventName;
 
         if(this.hasEvent(eventName) === false) {
             this.registerEvents([eventName]);
-        };
+        }
 
         this.super('Observer', 'unsubscribe', [eventName, eventFn]);
     };
