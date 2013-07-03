@@ -18,28 +18,12 @@
         this.super('Observer', 'init');
 
         this.DrawInfo = {};
+        this.DrawInfo.Position = {x: 0, y: 0};
+        this.DrawInfo.Size = {width: 0, height: 0};
         this.DrawInfo.DrawObjectName = _.uniqueId();
         this.DrawInfo.DrawType = 'fill'
         this.DrawInfo.DrawAction = 'rect';
         this.DrawInfo.DrawFrom = 'from';
-        this.DrawInfo.DrawStyle = {
-            fillStyle: '#000000',
-            font: "10px sans-serif",
-            globalAlfa: 1,
-            globalCompositeOperation: "source-over",
-            lineCap: "butt",
-            lineDashOffset: 0,
-            lineJoin: "miter",
-            lineWidth: 1,
-            miterLimit: 10,
-            shadowBlur: 0,
-            shadowColor: "rgba(0, 0, 0, 0)",
-            shadowOffsetX: 0,
-            shadowOffsetY: 0,
-            strokeStyle: "#000000",
-            textAlign: "start",
-            textBaseline: "alphabetic"
-        };
         this.DrawInfo.DrawStyleApply = [];
         this.DrawInfo.DrawStyleBack = [];
     };

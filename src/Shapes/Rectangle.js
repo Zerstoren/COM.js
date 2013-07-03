@@ -28,6 +28,10 @@
     Rectangle.prototype.setPosition = function(x, y) {
         this.position.x = Number.isFinite(x) ? x : this.position.x;
         this.position.y = Number.isFinite(y) ? y : this.position.y;
+
+        this.DrawInfo.Position.x = this.position.x;
+        this.DrawInfo.Position.y = this.position.y;
+
         return this;
     };
 
@@ -40,6 +44,10 @@
     Rectangle.prototype.setSize = function(width, height) {
         this.size.width = width || this.size.width;
         this.size.height = height || this.size.height;
+
+        this.DrawInfo.Size.width = this.size.width;
+        this.DrawInfo.Size.height = this.size.height;
+
         return this;
     };
 

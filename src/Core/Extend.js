@@ -24,6 +24,15 @@
     };
 
     /**
+     * Расширялся ли этот метод с помощью класса
+     * @param  {string} instanceName Имя расширяемого класса
+     * @return {boolean}             Расширялся ли этот метод
+     */
+    Extend.hasInstance = function(instanceName) {
+        return this['$$super_instance_' + instanceName] === instanceName;
+    };
+
+    /**
      * Добавляет новый метод в данный класс, полностью соблюдая порядок добавления прототипов
      * @param  {string}   name   Имя метода
      * @param  {Function} fn     Замыкающая функция

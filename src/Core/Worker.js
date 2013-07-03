@@ -30,13 +30,26 @@
      * @param  {mixed} message Данные сообщения
      * @return {void}
      */
-    WorkerProto.prototype.message = function(message) {
+    WorkerProto.prototype.message = function(message, show) {
         if(this.$Worker_Executor === null) {
             throw new Error('Worker not started yet');
         }
 
+        if(packeg('COM.Config.DebugWorker') && show) {
+            console.log('To Worker `' + this.$Worker_Name + '`', message);
+        }
+
         this.$Worker_Executor.postMessage(message);
     };
+
+    /**
+     * Переименовывает воркер
+     * @param  {string} name Новое имя
+     * @return {void}
+     */
+    WorkerProto.prototype.rename = function(name) {
+        this.$Worker_Name = name;
+    }
 
     /**
      * Подготавливает данные для создание воркера
@@ -68,8 +81,8 @@
      * @return {void}
      */
     WorkerProto.prototype.$Worker_OnMessage = function(e) {
-        if(e.data.log) {
-            console.log('Worker `' + this.$Worker_Name + '`', '-->', e.data.value);
+        if(packeg('COM.Config.DebugWorker') && e.data.log) {
+            console.log('From Worker `' + this.$Worker_Name + '`', e.data.value);
             return;
         }
 

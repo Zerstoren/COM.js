@@ -51,6 +51,10 @@ Object.extend = function() {
             continue;
         }
 
+        if(options.$super) {
+            target.prototype['$$super_instance_' + options.$super] = options.$super;
+        }
+
         for(name in options) {
             copy = options[name];
 
