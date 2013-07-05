@@ -24,6 +24,7 @@
         };
 
         var $merge = function(target, source) {
+            var name;
             for(name in source) {
                 target[name] = source[name];
             }
@@ -41,39 +42,58 @@
         };
 
         var $itemsIsCrossed = function(source, target) {
-            var a = {
-                x: source.Position.x,
-                y: source.Position.y,
-                x1: source.Position.x + source.Size.width,
-                y2: source.Position.y + source.Size.height
+            var base = {
+                from: {
+                    x: source.Position.x,
+                    y: source.Position.y
+                },
+
+                to: {
+                    x: source.Position.x + source.Size.width,
+                    y: source.Position.y + source.Size.height
+                }
             };
 
-            var b = {
-                x: target.Position.x,
-                y: target.Position.y,
-                x1: target.Position.x + target.Size.width,
-                y1: target.Position.y + target.Size.height
+            var find = {
+                from: {
+                    x: target.Position.x,
+                    y: target.Position.y
+                },
+
+                to: {
+                    x: target.Position.x + target.Size.width,
+                    y: target.Position.y + target.Size.height
+                }
             };
-            self.log(a.y < b.y1, a.y1 > b.y, a.x1 < b.x, a.x > b.x1);
 
-            return ( a.y < b.y1 || a.y1 > b.y || a.x1 < b.x || a.x > b.x1 );
-/**
-var intersects = function ( a, b ) {
-    return ( a.y < b.y1 || a.y1 > b.y || a.x1 < b.x || a.x > b.x1 );
-}
+            var tmp;
+            // Установка from, как наивысшей вершини, а to как наименьшей
+            if(base.from.x > base.to.x) {
+                tmp = base.from.x;
+                base.from.x = base.to.x;
+                base.to.x = tmp;
+            }
 
-(a.x,a.y)--------------|
-   |                   |
-   |                   |
-   |                   |
-   |---------------(a.x1,a.y1)
-(b.x,b.y)---------------------|
-   |                          |
-   |                          |
-   |                          |
-   |---------------------(b.x1,b.y1)
+            if(base.from.y > base.to.y) {
+                tmp = base.from.y;
+                base.from.y = base.to.y;
+                base.to.y = tmp;
+            }
 
- */
+            if(find.from.x > find.to.x) {
+                tmp = find.from.x;
+                find.from.x = find.to.x;
+                find.to.x = tmp;
+            }
+
+            if(find.from.y > find.to.y) {
+                tmp = find.from.y;
+                find.from.y = find.to.y;
+                find.to.y = tmp;
+            }
+
+            return (find.from.x <= base.from.x && base.from.x <= find.to.x || base.from.x <= find.from.x && find.from.x <= base.to.x) &&
+                    (find.from.y <= base.from.y && base.from.y <= find.to.y || base.from.y <= find.from.y && find.from.y <= base.to.y);
         };
 
         function newFigure(value) {
@@ -100,7 +120,9 @@ var intersects = function ( a, b ) {
         }
 
         function drawPrepare(items) {
-            var name, item, count = 0;
+            var name, item,
+                count = 0,
+                forDelete = [];
 
             for(item in items) {
                 if(items[item].Updated !== true) {
@@ -131,7 +153,16 @@ var intersects = function ( a, b ) {
                 connectionsItemFindToClear(item);
             }
 
-            self.log(GlobalClear);
+            for(item in GlobalClear) {
+                forDelete.push({
+                    x: ShapesIndex[item].Position.x - 1,
+                    y: ShapesIndex[item].Position.y - 1,
+                    width: ShapesIndex[item].Size.width + 2,
+                    height: ShapesIndex[item].Size.height + 2
+                });
+            }
+
+            self.clearPositions(forDelete);
         }
 
         function connectionsItemFindToClear(item) {
@@ -183,7 +214,8 @@ var intersects = function ( a, b ) {
 
             self.message('draw', draw);
             self.message('complete');
-        };
+            GlobalClear = {};
+        }
 
         self.onmessage = function(event) {
             var data = event.data;
@@ -205,7 +237,7 @@ var intersects = function ( a, b ) {
                 case 'draw':
                     drawPrepare(data.value);
                     startDraw();
-            };
+            }
         };
 
         self.message = function(action, value) {

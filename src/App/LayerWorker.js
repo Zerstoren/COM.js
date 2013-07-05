@@ -64,7 +64,7 @@
         this.$LayerWorker_Worker.subscribe('onmessage', this.$LayerWorker_WorkerListener.bind(this));
         this.subscribe('resize', this.$LayerWorker_OnResize.bind(this));
         this.super('Layer', '$Layer_AttachEvents');
-    }
+    };
 
     /**
      * Убирает события с данного слоя
@@ -74,7 +74,7 @@
     LayerWorker.prototype.$Layer_DettachEvents = function() {
         this.$LayerWorker_Worker.unsubscribe('onmessage', this.$LayerWorker_WorkerListener.bind(this));
         this.super('Layer', '$Layer_DettachEvents');
-    }
+    };
 
 
     // <!---- Собственные прототипы ----> //
