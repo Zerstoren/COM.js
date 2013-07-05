@@ -32,6 +32,8 @@
         this.DrawInfo.Position.x = this.position.x;
         this.DrawInfo.Position.y = this.position.y;
 
+        this.update();
+
         return this;
     };
 
@@ -48,6 +50,8 @@
         this.DrawInfo.Size.width = this.size.width;
         this.DrawInfo.Size.height = this.size.height;
 
+        this.update();
+
         return this;
     };
 
@@ -60,6 +64,9 @@
         this.setDrawInfo({
             type: type
         });
+
+        this.update();
+
         return this;
     };
 

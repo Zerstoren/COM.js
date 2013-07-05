@@ -117,6 +117,7 @@
     LayerWorker.prototype.$LayerWorker_FromWorkerDrawItems = function(data) {
         for(var i = 0, max = data.length; i < max; i++) {
             this.$Layer_Context.draw(this.$Layer_Figures[data[i]]);
+            this.$Layer_Figures[data[i]].DrawInfo.Updated = false;
         }
     };
 

@@ -5,6 +5,7 @@
         var ShapesConfig = [];
         var CanvasSize = {width: 0, height: 0};
         var GlobalClear = {};
+        var GlobalUpdate = {};
 
         var $isEquals = function(a, b) {
             for(var i in a) {
@@ -30,37 +31,32 @@
             return target;
         };
 
+        var $size = function(obj) {
+            var ob, count = 0;
+            for(ob in obj) {
+                count += 1;
+            }
+
+            return count;
+        };
+
         var $itemsIsCrossed = function(source, target) {
-            var sourceRect = {
-                from: {
-                    x: source.Position.x,
-                    y: source.Position.y
-                },
-
-                to: {
-                    x: source.Position.x + source.Size.width,
-                    y: soruce.Position.y + source.Size.height
-                }
+            var a = {
+                x: source.Position.x,
+                y: source.Position.y,
+                x1: source.Position.x + source.Size.width,
+                y2: source.Position.y + source.Size.height
             };
 
-            var targetRect = {
-                from: {
-                    x: source.Position.x,
-                    y: source.Position.y
-                },
-
-                to: {
-                    x: source.Position.x + source.Size.width,
-                    y: soruce.Position.y + source.Size.height
-                }
+            var b = {
+                x: target.Position.x,
+                y: target.Position.y,
+                x1: target.Position.x + target.Size.width,
+                y1: target.Position.y + target.Size.height
             };
+            self.log(a.y < b.y1, a.y1 > b.y, a.x1 < b.x, a.x > b.x1);
 
-            return (
-                source.from.y < target.to.y ||
-                source.to.y > target.from.y ||
-                source.to.x < target.from.x ||
-                source.from.x > target.to.x
-            )
+            return ( a.y < b.y1 || a.y1 > b.y || a.x1 < b.x || a.x > b.x1 );
 /**
 var intersects = function ( a, b ) {
     return ( a.y < b.y1 || a.y1 > b.y || a.x1 < b.x || a.x > b.x1 );
@@ -104,47 +100,67 @@ var intersects = function ( a, b ) {
         }
 
         function drawPrepare(items) {
-            var name,
-                count = 0,
-                clear = [],
-                namesForUpdate = [];
+            var name, item, count = 0;
 
-            // Ищем инфу, о тех кому 100% надо обновление
-            ShapesDraw.map(function(shape) {
-                name = shape.DrawName;
-                if(!items[name]) {
-                    return;
+            for(item in items) {
+                if(items[item].Updated !== true) {
+                    delete items[item];
+                    continue;
                 }
 
-                if($isEquals(shape, items[name]) === false) {
-                    shape.Updated = true;
-                    shape.newData = items[name];
-                    count += 1;
-                    namesForUpdate.push(shape.DrawName);
-                }
-            });
+                count += 1;
+            }
 
             if(count >= (ShapesDraw.length / 2)) {
-                clear.push({
+                self.clearPositions([{
                     x: 0,
                     y: 0,
                     width: CanvasSize.width,
                     height: CanvasSize.height
-                });
+                }]);
 
-                self.clearPositions(clear);
-            } else {
-                connectionsItemFindToClear(namesForUpdate);
+                for(item in items) {
+                    include(item, items[item]);
+                }
+
+                return;
+            }
+
+            for(item in items) {
+                include(item, items[item]);
+                connectionsItemFindToClear(item);
+            }
+
+            self.log(GlobalClear);
+        }
+
+        function connectionsItemFindToClear(item) {
+            var i, drawName;
+            if(GlobalClear[item] === true) {
+                return;
+            }
+
+            GlobalClear[item] = true;
+
+            for(i = ShapesDraw.length; i--;) {
+                drawName = ShapesDraw[i].DrawName;
+                if(GlobalClear[drawName] !== undefined) {
+                    continue;
+                }
+
+                if($itemsIsCrossed(ShapesIndex[item], ShapesDraw[i]) === true) {
+                    include(ShapesDraw[i].DrawName);
+                    connectionsItemFindToClear(ShapesDraw[i].DrawName);
+                }
             }
         }
 
-        function connectionsItemFindToClear(names) {
-            var namesForUpdate;
+        function include(index, data) {
+            ShapesIndex[index].Updated = true;
 
-            names.map(function(item) {
-
-                self.log(ShapesIndex[item]);
-            });
+            if(data) {
+                ShapesIndex[index].newData = data;
+            }
         }
 
         function clearPositions(items) {
@@ -157,16 +173,16 @@ var intersects = function ( a, b ) {
             draw = [];
             for(i = 0, max = ShapesDraw.length; i < max; i++) {
                 if(ShapesDraw[i].Updated) {
-                    draw.push(ShapesDraw[i].DrawName);
-                    delete ShapesDraw[i].Updated
                     newData = ShapesDraw[i].newData;
                     delete ShapesDraw[i].newData;
+                    draw.push(ShapesDraw[i].DrawName);
                     ShapesDraw[i] = $merge(ShapesDraw[i], newData);
+                    ShapesDraw[i].Updated = false;
                 }
             }
 
             self.message('draw', draw);
-            self.message('complete')
+            self.message('complete');
         };
 
         self.onmessage = function(event) {

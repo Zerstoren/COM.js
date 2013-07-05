@@ -63,9 +63,9 @@
         toBlob = functional.splice(1, functional.length - 2);
 
         if(packeg('COM.Config.Debug') && packeg('COM.Config.DebugWorker')) {
-            toBlob.push("self.log = function(data) { self.postMessage({log: true, value: data}); };");
+            toBlob.push("self.log = function() { self.postMessage({log: true, value: arguments[1] ? arguments : arguments[0] }); };");
         } else {
-            toBlob.push("self.log = function(data) {};");
+            toBlob.push("self.log = function() {};");
         }
 
         blob = new Blob([

@@ -26,6 +26,7 @@
         this.DrawInfo.DrawFrom = 'from';
         this.DrawInfo.DrawStyleApply = [];
         this.DrawInfo.DrawStyleBack = [];
+        this.DrawInfo.Updated = false;
     };
 
     /**
@@ -87,6 +88,7 @@
         }
 
         this.setDrawInfo({style: update});
+        this.update();
         return this;
     };
 
@@ -103,7 +105,7 @@
                 Array.remove(this.DrawInfo.DrawStyleApply, this.DrawInfo.DrawStyleApply[0]);
             }
         }
-
+        this.update();
         return this;
     };
 
@@ -117,6 +119,10 @@
         this.DrawInfo.DrawStyleBack =
             this.DrawInfo.DrawStyleBack.concat(params.map(this.$Shape_RenameParam.bind(this)));
         return this;
+    };
+
+    Shape.prototype.update = function() {
+        this.DrawInfo.Updated = true;
     };
 
     /**
