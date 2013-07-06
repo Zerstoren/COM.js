@@ -7,22 +7,12 @@
         var GlobalClear = {};
         var GlobalUpdate = {};
 
-        var $isEquals = function(a, b) {
-            for(var i in a) {
-                if(a[i] instanceof Array) {
-                    continue;
-                } else if(a[i] instanceof Object) {
-                    if($isEquals(a[i], b[i]) === false) {
-                        return false;
-                    }
-                } else if(a[i] !== b[i]) {
-                    return false;
-                }
-            }
-
-            return true;
-        };
-
+        /**
+         * Производит слияние объекта source в target
+         * @param  {object} target Цель слияния
+         * @param  {object} source Данные для слияния
+         * @return {object}        Результат слияния
+         */
         var $merge = function(target, source) {
             var name;
             for(name in source) {
@@ -32,15 +22,12 @@
             return target;
         };
 
-        var $size = function(obj) {
-            var ob, count = 0;
-            for(ob in obj) {
-                count += 1;
-            }
-
-            return count;
-        };
-
+        /**
+         * Определяет, пересекаются ли source прямоугольник с target прямоугольником
+         * @param  {object} source Данные о фигуре
+         * @param  {object} target Данные о другой фигуре
+         * @return {boolean}       Пересекаются ли прямоугольники
+         */
         var $itemsIsCrossed = function(source, target) {
             var base = {
                 from: {
@@ -96,6 +83,11 @@
                     (find.from.y <= base.from.y && base.from.y <= find.to.y || base.from.y <= find.from.y && find.from.y <= base.to.y);
         };
 
+        /**
+         * Добавляет новую фигуру
+         * @param  {object} value Данные о фигуре
+         * @return {void}
+         */
         function newFigure(value) {
             value.info.Updated = true;
 
@@ -104,6 +96,11 @@
             ShapesConfig.push(value.config);
         }
 
+        /**
+         * Удаляет существующую фигуру
+         * @param  {string} name Имя фигуры
+         * @return {void}
+         */
         function removeFigure(name) {
             var i, max;
             for(i = 0, max = ShapesDraw.length; i < max; i++) {
@@ -119,6 +116,11 @@
             }
         }
 
+        /**
+         * Просчеты для отрисовки фигур
+         * @param  {object} items Список фигур на перерисовку
+         * @return {void}
+         */
         function drawPrepare(items) {
             var name, item,
                 count = 0,
@@ -155,16 +157,21 @@
 
             for(item in GlobalClear) {
                 forDelete.push({
-                    x: ShapesIndex[item].Position.x - 1,
-                    y: ShapesIndex[item].Position.y - 1,
-                    width: ShapesIndex[item].Size.width + 2,
-                    height: ShapesIndex[item].Size.height + 2
+                    x: ShapesIndex[item].Position.x,
+                    y: ShapesIndex[item].Position.y,
+                    width: ShapesIndex[item].Size.width,
+                    height: ShapesIndex[item].Size.height
                 });
             }
 
             self.clearPositions(forDelete);
         }
 
+        /**
+         * Рекурсивный поиск сопутствующих фигур, которые могут пересекаться
+         * @param  {string} item Имя базовой фигуры
+         * @return {void}
+         */
         function connectionsItemFindToClear(item) {
             var i, drawName;
             if(GlobalClear[item] === true) {
@@ -186,6 +193,12 @@
             }
         }
 
+        /**
+         * Функция-установщик, которая помечает фигуру для переустановки
+         * @param  {string} index Имя фигуры
+         * @param  {object} data  Данные для установки
+         * @return {void}
+         */
         function include(index, data) {
             ShapesIndex[index].Updated = true;
 
@@ -194,10 +207,19 @@
             }
         }
 
+        /**
+         * Отправка сообщения о потребности очистки области
+         * @param  {array} items Список итемов для очистки
+         * @return {void}
+         */
         function clearPositions(items) {
             self.message('clear', items);
         }
 
+        /**
+         * Пост подготовка данных о изменения в фигурах
+         * @return {voud}
+         */
         function startDraw() {
             var i, max, newData;
 
@@ -217,6 +239,11 @@
             GlobalClear = {};
         }
 
+        /**
+         * Слушает вхолящих сообщений от родительского процесса
+         * @param  {object} event Объект сообщения
+         * @return {void}
+         */
         self.onmessage = function(event) {
             var data = event.data;
 
@@ -240,6 +267,12 @@
             }
         };
 
+        /**
+         * Отправка сообщений на сервер
+         * @param  {string} action Имя действия
+         * @param  {mixed}  value  Данные действия
+         * @return {void}
+         */
         self.message = function(action, value) {
             self.postMessage({action: action, value: value});
         };

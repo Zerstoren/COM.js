@@ -7,6 +7,12 @@
      */
     Base.fillRect = function() {
         var opt = Base.$researchPosition(arguments);
+        /*for(var i in this.ctx) {
+            if(typeof this.ctx[i] === 'string' || typeof this.ctx[i] === 'number') {
+                console.debug(i, this.ctx[i]);
+            }
+        }*/
+
         this.ctx.fillRect(opt[0], opt[1], opt[2], opt[3]);
     };
 

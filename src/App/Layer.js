@@ -43,8 +43,14 @@
         }
 
         this.$Layer_CreateCanvas();
+
+        this.super('DomEvents', 'init', [this.$Layer_Element]);
+        this.super('LayerEvents', 'init');
+
         this.$Layer_AttachEvents();
         this.$Layer_Iterate();
+
+
     };
 
     /**
@@ -54,6 +60,10 @@
      * @return {strig}        Идентификатор фигуры
      */
     Layer.prototype.push = function(figure, config) {
+        if(figure.hasInstance('Rectangle') === false) {
+            throw new Error('Added figure is not extended from COM.Shapes.Rectangle');
+        }
+
         if(figure['$Layer_name'] !== undefined) {
             throw new Error('Figure already added to some layer');
         }
@@ -110,6 +120,10 @@
         }
 
         this.$Layer_NeedUpdate = true;
+    };
+
+    Layer.prototype.getFigure = function(name) {
+        return this.$Layer_Figures[name];
     };
 
     /**
@@ -216,7 +230,9 @@
     Object.extend(
         Layer,
         packeg('COM.Extend'),
-        packeg('COM.Events.Observer')
+        packeg('COM.Events.Observer'),
+        packeg('COM.Events.DomEvents'),
+        packeg('COM.Events.LayerEvents')
     );
 
     packeg('COM.App.Layer', Layer);

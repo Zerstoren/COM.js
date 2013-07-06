@@ -59,7 +59,6 @@
             case 'rect':
                 saveStyle = this.revertSaveStyle(shape.DrawStyleBack);
                 this.applyStyle(shape.DrawStyleApply);
-
                 this[shape.DrawType + 'Rect'](
                     obj.position.x,
                     obj.position.y,
