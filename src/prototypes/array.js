@@ -8,6 +8,14 @@ Array.remove = function(list, value) {
     list.splice(index, 1);
 };
 
+Array.merge = function(target, source) {
+    for(var i = 0, max = source.length; i < max; i++) {
+        target.push(source[i]);
+    }
+
+    return target;
+};
+
 Array.contain = function(list, value) {
     return list.indexOf(value) !== -1;
 };

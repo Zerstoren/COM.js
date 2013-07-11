@@ -5,35 +5,38 @@
      * из приходящих конфигов в классе-родителе
      * @type {Object}
      */
-    var Dom = {};
+    var DomEvents = {};
 
-    Dom.$super = 'DomEvents';
+    DomEvents.$super = 'DomEvents';
 
-    Dom.init = function(element, config, isFormELement) {
-        var ev,
-            $ = packeg('$');
+    DomEvents.init = function(element, config, isFormELement) {
+        var ev;
 
-        this.$DomEvents_Element = $(element);
+        if(!this.$super) {
+            throw new Error('this.$super is undefined and need be setup');
+        }
+
+        this.setEventsElement(element);
 
         this.$DomEvents_EventsDict = {
             // Mouse Events
-            onClick: this.$DomEvents_Element.click,
-            onDoubleClick: this.$DomEvents_Element.dblclick,
-            onHover: this.$DomEvents_Element.hover,
-            onMouseDown: this.$DomEvents_Element.mousedown,
-            onMouseUp: this.$DomEvents_Element.mouseup,
-            onMouseEnter: this.$DomEvents_Element.mouseenter,
-            onMouselEave: this.$DomEvents_Element.mouseleave,
-            onMouseMove: this.$DomEvents_Element.mousemove,
+            onClick: this.$DomEvents_Element.click.bind(this.$DomEvents_Element),
+            onDoubleClick: this.$DomEvents_Element.dblclick.bind(this.$DomEvents_Element),
+            onHover: this.$DomEvents_Element.hover.bind(this.$DomEvents_Element),
+            onMouseDown: this.$DomEvents_Element.mousedown.bind(this.$DomEvents_Element),
+            onMouseUp: this.$DomEvents_Element.mouseup.bind(this.$DomEvents_Element),
+            onMouseEnter: this.$DomEvents_Element.mouseenter.bind(this.$DomEvents_Element),
+            onMouselEave: this.$DomEvents_Element.mouseleave.bind(this.$DomEvents_Element),
+            onMouseMove: this.$DomEvents_Element.mousemove.bind(this.$DomEvents_Element),
 
             // input and forms events
-            onFocus: this.$DomEvents_Element.focus,
-            onBlur: this.$DomEvents_Element.blur,
-            onFocusIn: this.$DomEvents_Element.focusin,
-            onFocusOut: this.$DomEvents_Element.focusout,
-            onSelect: this.$DomEvents_Element.select,
-            onSubmit: this.$DomEvents_Element.submit,
-            onChange: this.$DomEvents_Element.change,
+            onFocus: this.$DomEvents_Element.focus.bind(this.$DomEvents_Element),
+            onBlur: this.$DomEvents_Element.blur.bind(this.$DomEvents_Element),
+            onFocusIn: this.$DomEvents_Element.focusin.bind(this.$DomEvents_Element),
+            onFocusOut: this.$DomEvents_Element.focusout.bind(this.$DomEvents_Element),
+            onSelect: this.$DomEvents_Element.select.bind(this.$DomEvents_Element),
+            onSubmit: this.$DomEvents_Element.submit.bind(this.$DomEvents_Element),
+            onChange: this.$DomEvents_Element.change.bind(this.$DomEvents_Element),
 
             // low level events
             on: this.$DomEvents_Element.on,
@@ -41,22 +44,23 @@
             unbind: this.$DomEvents_Element.unbind
         };
 
-        if(!this.$super) {
-            throw new Error('For DomEvents COM.Extend is required packeg');
-        }
-
         for(ev in this.$DomEvents_EventsDict) {
             this.add_new_method(
                 ev,
                 this.$DomEvents_EventsDict[ev],
-                Dom.$super
+                DomEvents.$super
             );
         }
 
-        this.domEventsRegister(config);
+        this.$DomEvents_DomEventsRegister(config);
     };
 
-    Dom.domEventsRegister = function(config) {
+    DomEvents.setEventsElement = function(element) {
+        var $ = packeg('$');
+        this.$DomEvents_Element = $(element);
+    };
+
+    DomEvents.$DomEvents_DomEventsRegister = function(config) {
         var item;
 
         if(!config) {
@@ -77,6 +81,6 @@
         }
     };
 
-    packeg('COM.Events.DomEvents', Dom);
+    packeg('COM.Events.DomEvents', DomEvents);
 
 })();

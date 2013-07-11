@@ -1,4 +1,9 @@
 (function() {
+    /**
+     * Класс для реализации объекта кнопки
+     *
+     * @package COM.GUI.Form.Button
+     */
     var Button = function(config) {
         this.init(config);
     };
@@ -17,7 +22,7 @@
         this.$Button_CreateButton();
 
         this.super('Element', 'init', [{
-            'html': this.$Button_Element,
+            'element': this.$Button_Element,
             'holder': this.$Button_Config.holder
         }]);
 
@@ -27,6 +32,10 @@
         ]);
     };
 
+    /**
+     * Создание HTML кнопки
+     * @return {voud}
+     */
     Button.prototype.$Button_CreateButton = function() {
         var $ = packeg('$');
         this.$Button_Element = $('<button>');

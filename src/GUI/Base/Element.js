@@ -1,4 +1,10 @@
 (function() {
+    /**
+     * Базовый элемент множества объектов.
+     * Он включает методы по управлению и отрисовке элементов на странице
+     *
+     * @package COM.GUI.Base.Element
+     */
 
     var Element = function(config) {
         this.init(config);
@@ -7,25 +13,42 @@
     Element.prototype.$super = 'Element';
 
     Element.prototype.init = function(config) {
+        var $ = packeg('$');
         this.super('Observer', 'init', []);
 
         this.$Element_Config = {
             id: undefined,
             class: undefined,
-            extraClass: undefined,
+            extractClass: undefined,
             holder: undefined,
-            html: undefined,
+            element: undefined,
 
-            identifyWrapper: 'wrap_element_' + String.random(8),
-            tagWrapper: 'span',
-            useWrapper: true,
-            visible: true,
+            visible: true
         };
 
         Object.merge(this.$Element_Config, config);
 
-        this.$Element_Holder = null;
-        this.$Element_Wrapper = null;
+        if(this.$Element_Config.element === undefined) {
+            throw new Error('COM.GUI.Base.Element not contain in config `element`');
+        }
+
+        this.$Element_Holder = typeof this.$Element_Config.holder === 'string' ?
+            $(this.$Element_Config.holder) : this.$Element_Config.holder;
+
+        this.$Element_Element = typeof this.$Element_Config.element === 'string' ?
+            $(this.$Element_Config.element) : this.$Element_Config.element;
+
+        if(this.$Element_Config.class) {
+            this.$Element_Element.addClass(this.$Element_Config.class);
+        }
+
+        if(this.$Element_Config.extractClass) {
+            this.$Element_Element.addClass(this.$Element_Config.extractClass);
+        }
+
+        if(this.$Element_Config.id) {
+            this.$Element_Element.attr('id', this.$Element_Config.id);
+        }
 
         this.registerEvents([
             'render', 'hide', 'show', 'move', 'changeHtml'
@@ -37,42 +60,19 @@
      * @return {void}
      */
     Element.prototype.render = function() {
-        var $ = packeg('$');
-
-        if(this.$Element_Holder === null) {
-            this.$Element_Holder = $(this.$Element_Config.holder);
-
-            if(this.$Element_Config.useWrapper === false) {
-                this._SetDefaultRenderInfo(
-                    this.$Element_SelectDefaultContext(),
-                    this.$Element_Config
-                );
-
-                this.$Element_Holder.html(this.$Element_Config.html);
-            }
-        }
-
-        if(this.$Element_Wrapper === null && this.$Element_Config.useWrapper === true) {
-            this.$Element_Wrapper = $('<' + this.$Element_Config.tagWrapper + '>');
-            this._SetDefaultRenderInfo(
-                this.$Element_SelectDefaultContext(),
-                this.$Element_Config
-            );
-            this.$Element_Wrapper.append(this.$Element_Config.html);
-        }
-
-        this.$Element_Holder.append(this.$Element_Wrapper);
-
+        this.$Element_Holder.append(this.$Element_Element);
         this.fireEvent('render');
+        return this;
     };
 
     /**
-     * Прячит контент
+     * Прячите контент
      * @return {void}
      */
     Element.prototype.hide = function() {
-        this.$Element_Holder.css({display: 'none'});
+        this.css({display: 'none'});
         this.fireEvent('hide');
+        return this;
     };
 
     /**
@@ -80,23 +80,19 @@
      * @return {void}
      */
     Element.prototype.show = function() {
-        var actionFor = this.$Element_SelectDefaultContext();
-
-        actionFor.css({display: 'block'});
+        this.css({display: 'block'});
         this.fireEvent('show');
+        return this;
     };
 
     /**
-     * Переводит контент из одной облости в другую
-     * @param  {string} position Новая позиция селектора
-     * @return {void}
+     * Устанавливает стили к элементу, аналогичен jquery.css
+     * @param  {string} name  Имя
+     * @param  {string} value Опция
+     * @return {mixed}
      */
-    Element.prototype.move = function(position) {
-        this.clean();
-        this.$Element_Holder = null;
-        this.$Element_Config.holder = position;
-        this.fireEvent('move');
-        this.render();
+    Element.prototype.css = function(name, value) {
+        return this.$Element_Element.css(name, value);
     };
 
     /**
@@ -104,45 +100,51 @@
      * @return {void}
      */
     Element.prototype.clean = function() {
-        if(this.$Element_Wrapper !== null) {
-            this.$Element_Holder.find(this.$Element_Wrapper).detach();
-        } else if(this.$Element_Config.useWrapper === false) {
-            this._SetDefaultRenderInfo(
-                this.$Element_SelectDefaultContext(),
-                this.$Element_Config
-            );
-
-            this.$Element_Holder.empty();
-        }
+        this.$Element_Element.detach();
     };
 
     /**
      * Возвращает HTML код, данного блока
      * @return {[type]} [description]
      */
-    Element.prototype.getHtml = function() {
-        return this.$Element_SelectDefaultContext().html();
+    Element.prototype.getHTML = function() {
+        return this.$Element_Element.html();
     };
 
     /**
-     * Устанавливает HTML код для данного элемента
-     * @param {string} setHtml Новый HTML код
-     * @return {void}
+     * Возвращает холдер
+     * @return {Object} Объект текущего холдера
      */
-    Element.prototype.setHtml = function(setHtml) {
-        this.$Element_Config.html = setHtml;
-        this.$Element_SelectDefaultContext().html(this.$Element_Config.html);
-        this.fireEvent('changeHtml');
+    Element.prototype.getHolder = function() {
+        return this.$Element_Holder;
+    };
+
+    /**
+     * Устанавливает холдер
+     * @param  {string} holder CSS Селектор нового холдера
+     * @return {this}
+     */
+    Element.prototype.setHolder = function(holder) {
+        var $ = packeg('$');
+        this.$Element_Holder = typeof holder === 'string' ? $(holder) : holder;
+        return this;
+    };
+
+    /**
+     * Переводит контент из одной облости в другую
+     * @param  {string} position Новая позиция селектора
+     * @return {this}
+     */
+    Element.prototype.move = function(holder) {
+        var $ = packeg('$');
+
+        this.clean();
+        this.setHolder(holder);
+
+        this.fireEvent('move');
         this.render();
-    };
 
-    /**
-     * Производит выборку, текущего аткивного элемента для заливки данных
-     * @private
-     * @return {jQuery} Активный класс
-     */
-    Element.prototype.$Element_SelectDefaultContext = function() {
-        return this.$Element_Wrapper ? this.$Element_Wrapper : this.$Element_Holder;
+        return this;
     };
 
     Object.extend(
@@ -150,6 +152,12 @@
         packeg('COM.Extend'),
         packeg('COM.Events.Observer'),
         packeg('COM.GUI.Base.Extern').prototype
+    );
+
+    Object.interface(
+        Element,
+        packeg('COM.GUI.Interfaces.RenderInterface'),
+        packeg('COM.GUI.Interfaces.HolderInterface')
     );
 
     packeg('COM.GUI.Base.Element', Element);
