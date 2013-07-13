@@ -24,5 +24,5 @@
         return this;
     };
 
-    packeg('COM.Context2d.Image', Img);
+    package('COM.Context2d.Image', Img);
 })();

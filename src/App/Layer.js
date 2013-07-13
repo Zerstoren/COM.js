@@ -215,10 +215,10 @@
 
     Object.extend(
         Layer,
-        packeg('COM.Extend'),
-        packeg('COM.Events.Observer')
+        package('COM.Extend'),
+        package('COM.Events.Observer')
     );
 
-    packeg('COM.App.Layer', Layer);
+    package('COM.App.Layer', Layer);
 
 })();

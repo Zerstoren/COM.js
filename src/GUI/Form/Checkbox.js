@@ -34,7 +34,7 @@
      * @return {this}
      */
     Checkbox.prototype.check = function() {
-        this.$Checkbox_CheckboxNode.attr('checked', 'checked');
+        this.$Checkbox_CheckboxNode.prop('checked', true);
         return this;
     };
 
@@ -43,8 +43,16 @@
      * @return {this}
      */
     Checkbox.prototype.uncheck = function() {
-        this.$Checkbox_CheckboxNode.removeAttr('checked');
+        this.$Checkbox_CheckboxNode.prop('checked', false);
         return this;
+    };
+
+    /**
+     * Возвращает значение value для чекбокса
+     * @return {string}
+     */
+    Checkbox.prototype.getValue = function() {
+        return this.$Checkbox_CheckboxNode.val();
     };
 
     /**
@@ -70,7 +78,7 @@
      * @return {boolean}
      */
     Checkbox.prototype.isChecked = function() {
-        return !!this.$Checkbox_SpanNode.attr('checked');
+        return !!this.$Checkbox_CheckboxNode.prop('checked');
     };
 
     /**
@@ -109,7 +117,7 @@
      * @return {void}
      */
     Checkbox.prototype.$Field_CreateElement = function() {
-        var checkboxNode, spanNode, $ = packeg('$');
+        var checkboxNode, spanNode, $ = package('$');
         this.$Checkbox_Element = $('<label>');
 
         spanNode = $('<span>');
@@ -118,7 +126,11 @@
         checkboxNode = $('<input>');
         checkboxNode
             .attr('type', 'checkbox')
-            .attr('name', this.$Checkbox_Config.name);
+            .attr('name', this.$Checkbox_Config.name)
+            .attr('value', this.$Checkbox_Config.value);
+
+        this.$Checkbox_CheckboxNode = checkboxNode;
+        this.$Checkbox_SpanNode = spanNode;
 
         if(this.$Checkbox_Config.wrapperClass) {
             spanNode.addClass(this.$Checkbox_Config.wrapperClass);
@@ -140,17 +152,14 @@
             this.$Checkbox_Element.append(spanNode);
         }
 
-        this.$Checkbox_CheckboxNode = checkboxNode;
-        this.$Checkbox_SpanNode = spanNode;
-
         return this.$Checkbox_Element;
     };
 
     Object.extend(
         Checkbox,
-        packeg('COM.GUI.Form.Field').prototype
+        package('COM.GUI.Form.Field').prototype
     );
 
-    packeg('COM.GUI.Form.Checkbox', Checkbox);
+    package('COM.GUI.Form.Checkbox', Checkbox);
 
 })();

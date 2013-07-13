@@ -138,5 +138,5 @@
         return this.$Observer_EventsHandler[eventName].length;
     };
 
-    packeg('COM.Events.Observer', Observer);
+    package('COM.Events.Observer', Observer);
 })();

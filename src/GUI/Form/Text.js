@@ -21,7 +21,7 @@
     };
 
     Text.prototype.$Field_CreateElement = function() {
-        var $ = packeg('$');
+        var $ = package('$');
         this.$Text_Element = $('<input>');
         return this.$Text_Element
             .attr('type', 'text')
@@ -30,9 +30,9 @@
 
     Object.extend(
         Text,
-        packeg('COM.GUI.Form.Field').prototype
+        package('COM.GUI.Form.Field').prototype
     );
 
-    packeg('COM.GUI.Form.Text', Text);
+    package('COM.GUI.Form.Text', Text);
 
 })();

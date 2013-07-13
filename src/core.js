@@ -19,8 +19,8 @@
 
 (function() {
 
-packeg('COM', {});
-packeg('COM.Config', {
+package('COM', {});
+package('COM.Config', {
     'Debug': true,
 
     'DebugTextSize': true,

@@ -37,17 +37,17 @@
      * @return {voud}
      */
     Button.prototype.$Button_CreateButton = function() {
-        var $ = packeg('$');
+        var $ = package('$');
         this.$Button_Element = $('<button>');
         this.$Button_Element.html(this.$Button_Config.value);
     };
 
     Object.extend(
         Button,
-        packeg('COM.GUI.Base.Element').prototype,
-        packeg('COM.Events.DomEvents')
+        package('COM.GUI.Base.Element').prototype,
+        package('COM.Events.DomEvents')
     );
 
-    packeg('COM.GUI.Form.Button', Button);
+    package('COM.GUI.Form.Button', Button);
 
 })();

@@ -85,8 +85,8 @@
 
     Object.extend(
         Rectangle,
-        packeg('COM.Shapes.Shape').prototype
+        package('COM.Shapes.Shape').prototype
     );
 
-    packeg('COM.Shapes.Rectangle', Rectangle);
+    package('COM.Shapes.Rectangle', Rectangle);
 })();

@@ -34,5 +34,5 @@
         }
     };
 
-    packeg('COM.Context2d.Text', Text);
+    package('COM.Context2d.Text', Text);
 })();

@@ -19,6 +19,7 @@
             class: 'field-radio-label',
             name: '',
             text: '',
+            value: '',
             firstText: false,
             checked: false,
 
@@ -34,7 +35,7 @@
      * @return {this}
      */
     Radio.prototype.check = function() {
-        this.$Radio_RadioNode.attr('checked', 'checked');
+        this.$Radio_RadioNode.prop('checked', true);
         return this;
     };
 
@@ -43,7 +44,7 @@
      * @return {this}
      */
     Radio.prototype.uncheck = function() {
-        this.$Radio_RadioNode.removeAttr('checked');
+        this.$Radio_RadioNode.prop('checked', false);
         return this;
     };
 
@@ -61,7 +62,7 @@
      * @return {boolean}
      */
     Radio.prototype.isChecked = function() {
-        return !!this.$Radio_SpanNode.attr('checked');
+        return !!this.$Radio_RadioNode.prop('checked');
     };
 
     /**
@@ -125,7 +126,7 @@
      * @return {void}
      */
     Radio.prototype.$Field_CreateElement = function() {
-        var radioNode, spanNode, $ = packeg('$');
+        var radioNode, spanNode, $ = package('$');
         this.$Radio_Element = $('<label>');
 
         spanNode = $('<span>');
@@ -134,7 +135,11 @@
         radioNode = $('<input>');
         radioNode
             .attr('type', 'radio')
-            .attr('name', this.$Radio_Config.name);
+            .attr('name', this.$Radio_Config.name)
+            .attr('value', this.$Radio_Config.value);
+
+        this.$Radio_RadioNode = radioNode;
+        this.$Radio_SpanNode = spanNode;
 
         if(this.$Radio_Config.wrapperClass) {
             spanNode.addClass(this.$Radio_Config.wrapperClass);
@@ -156,17 +161,14 @@
             this.$Radio_Element.append(spanNode);
         }
 
-        this.$Radio_RadioNode = radioNode;
-        this.$Radio_SpanNode = spanNode;
-
         return this.$Radio_Element;
     };
 
     Object.extend(
         Radio,
-        packeg('COM.GUI.Form.Field').prototype
+        package('COM.GUI.Form.Field').prototype
     );
 
-    packeg('COM.GUI.Form.Radio', Radio);
+    package('COM.GUI.Form.Radio', Radio);
 
 })();

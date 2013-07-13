@@ -20,7 +20,7 @@
     };
 
     Password.prototype.$Field_CreateElement = function() {
-        var $ = packeg('$');
+        var $ = package('$');
         this.$Password_Element = $('<input>');
         return this.$Password_Element
             .attr('type', 'password')
@@ -29,9 +29,9 @@
 
     Object.extend(
         Password,
-        packeg('COM.GUI.Form.Field').prototype
+        package('COM.GUI.Form.Field').prototype
     );
 
-    packeg('COM.GUI.Form.Password', Password);
+    package('COM.GUI.Form.Password', Password);
 
 })();

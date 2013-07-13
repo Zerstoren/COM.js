@@ -167,11 +167,10 @@
 
     Object.extend(
         Field,
-        packeg('COM.Extend'),
-        packeg('COM.Events.DomEvents'),
-        packeg('COM.GUI.Base.Element').prototype
+        package('COM.Events.DomEvents'),
+        package('COM.GUI.Base.Element').prototype
     );
 
-    packeg('COM.GUI.Form.Field', Field);
+    package('COM.GUI.Form.Field', Field);
 
 })();

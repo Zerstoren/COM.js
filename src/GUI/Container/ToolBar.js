@@ -10,7 +10,7 @@
     };
 
     ToolBar.prototype.init = function(cfg) {
-        var $ = packeg('$');
+        var $ = package('$');
 
         this.$ToolBar_Config = Object.merge({
             class: 'container-toolbar',
@@ -60,7 +60,7 @@
      * @return {this}
      */
     ToolBar.prototype.move = function(holder) {
-        var $ = packeg('$');
+        var $ = package('$');
 
         this.clean();
         this.setHolder(holder);
@@ -100,7 +100,7 @@
      * @return {void}
      */
     ToolBar.prototype.$ToolBar_BuildHtml = function() {
-        var $ = packeg('$');
+        var $ = package('$');
 
         this.$ToolBar_Parent = $('<div>');
         this.$ToolBar_Parent
@@ -127,7 +127,7 @@
      * @return {object}       Возврат маппера этой группы элементов
      */
     ToolBar.prototype.$ToolBar_CheckItems = function(items) {
-        var mapper = new (packeg('COM.GUI.Base.ElementMapper'))();
+        var mapper = new (package('COM.GUI.Base.ElementMapper'))();
 
         for(var i = 0, max = items.length; i < max; i++) {
             if(
@@ -145,15 +145,15 @@
 
     Object.extend(
         ToolBar,
-        packeg('COM.Extend')
+        package('COM.Extend')
     );
 
     Object.interface(
         ToolBar,
-        packeg('COM.GUI.Interfaces.RenderInterface'),
-        packeg('COM.GUI.Interfaces.HolderInterface')
+        package('COM.GUI.Interfaces.RenderInterface'),
+        package('COM.GUI.Interfaces.HolderInterface')
     );
 
-    packeg('COM.GUI.Container.ToolBar', ToolBar);
+    package('COM.GUI.Container.ToolBar', ToolBar);
 
 })();

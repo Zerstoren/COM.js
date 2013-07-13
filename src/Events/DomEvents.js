@@ -56,7 +56,7 @@
     };
 
     DomEvents.setEventsElement = function(element) {
-        var $ = packeg('$');
+        var $ = package('$');
         this.$DomEvents_Element = $(element);
     };
 
@@ -81,6 +81,6 @@
         }
     };
 
-    packeg('COM.Events.DomEvents', DomEvents);
+    package('COM.Events.DomEvents', DomEvents);
 
 })();

@@ -8841,4 +8841,4 @@ if ( typeof window === "object" && typeof window.document === "object" ) {
 
 })( window );
 jQuery.noConflict();
-packeg('$', jQuery)
+package('$', jQuery)

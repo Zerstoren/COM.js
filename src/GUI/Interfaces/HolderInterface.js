@@ -10,6 +10,6 @@
     HolderInterface.move = 1;
     HolderInterface.setHolder = 1;
 
-    packeg('COM.GUI.Interfaces.HolderInterface', HolderInterface);
+    package('COM.GUI.Interfaces.HolderInterface', HolderInterface);
 
 })();

@@ -14,13 +14,11 @@
         this.$Select_Element = null;
         this.$Select_Options = [];
         this.$Select_Config = Object.merge({
-            data: {},
+            data: [],
             class: 'field-select'
         }, cfg || {});
 
         this.super('Field', 'init', [this.$Select_Config]);
-
-        this.onChange(this.$Select_OnSelectItem.bind(this));
 
         this.setData(this.$Select_Config.data);
     };
@@ -32,7 +30,7 @@
      */
     Select.prototype.setData = function(items) {
         var i, max, option,
-            $ = packeg('$');
+            $ = package('$');
 
         this.$Select_Element.empty();
         this.$Select_Options = [];
@@ -64,14 +62,20 @@
     };
 
     /**
-     *
+     * Устанавливает значение для элемента
+     * @return {this}
      */
     Select.prototype.setSelected = function(value) {
-        // body...
+        this.$Select_Element.val(value);
+        return this;
     };
 
+    /**
+     * Возвращает, выбран ли какой-то элемент
+     * @return {boolean}
+     */
     Select.prototype.isSelected = function() {
-        // body...
+        return !this.$Select_Element.val();
     };
 
     /**
@@ -81,7 +85,7 @@
      */
     Select.prototype.$Select_SetDataOptionGroup = function(data) {
         var i, max, optgroup, option,
-            $ = packeg('$');
+            $ = package('$');
 
         optgroup = $('<optgroup>');
         optgroup.attr('label', data.text);
@@ -104,30 +108,21 @@
         return optgroup;
     };
 
-    Select.prototype.$Select_OnSelectItem = function(ev) {
-        console.log(ev);
-    };
-
     /**
      * Создает HTML элемент
      * @return {[type]} [description]
      */
     Select.prototype.$Field_CreateElement = function() {
-        var $ = packeg('$');
+        var $ = package('$');
         this.$Select_Element = $('<select>');
         return this.$Select_Element;
     };
 
     Object.extend(
         Select,
-        packeg('COM.GUI.Form.Field').prototype
+        package('COM.GUI.Form.Field').prototype
     );
 
-    Object.interface(
-        Select,
-        packeg('COM.GUI.Interfaces.SelectedInterface')
-    );
-
-    packeg('COM.GUI.Form.Select', Select);
+    package('COM.GUI.Form.Select', Select);
 
 })();

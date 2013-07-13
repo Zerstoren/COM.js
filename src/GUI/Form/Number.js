@@ -27,7 +27,7 @@
      * @return {object} Созданный элемента
      */
     Number.prototype.$Field_CreateElement = function() {
-        var $ = packeg('$');
+        var $ = package('$');
         this.$Number_Element = $('<input>');
         this.$Number_Element
             .attr('type', 'number')
@@ -53,9 +53,9 @@
 
     Object.extend(
         Number,
-        packeg('COM.GUI.Form.Field').prototype
+        package('COM.GUI.Form.Field').prototype
     );
 
-    packeg('COM.GUI.Form.Number', Number);
+    package('COM.GUI.Form.Number', Number);
 
 })();

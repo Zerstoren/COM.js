@@ -45,6 +45,13 @@
     };
 
     /**
+     *
+     */
+    ElementMapper.prototype.clear = function() {
+        this.$ElementMapper_Mapped = [];
+    };
+
+    /**
      * Вызывает render
      * @return {this}
      */
@@ -87,17 +94,30 @@
         }
     };
 
+    ElementMapper.prototype.getElements = function() {
+        return this.$ElementMapper_Mapped;
+    };
+
+    ElementMapper.prototype.getElement = function(n) {
+        var item = this.$ElementMapper_Mapped[n];
+        if(item === undefined) {
+            throw new Error('Out of range');
+        }
+
+        return item;
+    };
+
     Object.extend(
         ElementMapper,
-        packeg('COM.Extend')
+        package('COM.Extend')
     );
 
     Object.interface(
         ElementMapper,
-        packeg('COM.GUI.Interfaces.DataMapperInterface'),
-        packeg('COM.GUI.Interfaces.RenderInterface'),
-        packeg('COM.GUI.Interfaces.HolderInterface')
+        package('COM.GUI.Interfaces.DataMapperInterface'),
+        package('COM.GUI.Interfaces.RenderInterface'),
+        package('COM.GUI.Interfaces.HolderInterface')
     );
 
-    packeg('COM.GUI.Base.ElementMapper', ElementMapper);
+    package('COM.GUI.Base.ElementMapper', ElementMapper);
 })();

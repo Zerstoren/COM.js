@@ -29,7 +29,7 @@
      * @return {boolean}             Расширялся ли этот метод
      */
     Extend.hasInstance = function(instancePath) {
-        var instance = packeg(interfacePath),
+        var instance = package(interfacePath),
             instanceName = instance.prototype ? instance.prototype.$super : instance.$super;
 
         if(interfaceName === undefined) {
@@ -45,7 +45,7 @@
      * @return {boolean}               Используется ли этот интерфейс
      */
     Extend.hasInterface = function(interfacePath) {
-        var interfaceName = packeg(interfacePath).$interface;
+        var interfaceName = package(interfacePath).$interface;
 
         if(interfaceName === undefined) {
             throw new Error('Interface by path ' + interfacePath + ' not found');
@@ -83,5 +83,5 @@
         }
     };
 
-    packeg('COM.Extend', Extend);
+    package('COM.Extend', Extend);
 })();

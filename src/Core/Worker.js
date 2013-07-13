@@ -35,7 +35,7 @@
             throw new Error('Worker not started yet');
         }
 
-        if(packeg('COM.Config.DebugWorker') && show) {
+        if(package('COM.Config.DebugWorker') && show) {
             console.log('To Worker `' + this.$Worker_Name + '`', message);
         }
 
@@ -62,7 +62,7 @@
         functional = fn.toString().split("\n");
         toBlob = functional.splice(1, functional.length - 2);
 
-        if(packeg('COM.Config.Debug') && packeg('COM.Config.DebugWorker')) {
+        if(package('COM.Config.Debug') && package('COM.Config.DebugWorker')) {
             toBlob.push("self.log = function() { self.postMessage({log: true, value: arguments[1] ? arguments : arguments[0] }); };");
         } else {
             toBlob.push("self.log = function() {};");
@@ -81,7 +81,7 @@
      * @return {void}
      */
     WorkerProto.prototype.$Worker_OnMessage = function(e) {
-        if(packeg('COM.Config.DebugWorker') && e.data.log) {
+        if(package('COM.Config.DebugWorker') && e.data.log) {
             console.log('From Worker `' + this.$Worker_Name + '`', e.data.value);
             return;
         }
@@ -91,9 +91,9 @@
 
     Object.extend(
         WorkerProto,
-        packeg('COM.Extend'),
-        packeg('COM.Events.Observer')
+        package('COM.Extend'),
+        package('COM.Events.Observer')
     );
 
-    packeg('COM.Core.Worker', WorkerProto);
+    package('COM.Core.Worker', WorkerProto);
 })();

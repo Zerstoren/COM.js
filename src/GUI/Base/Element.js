@@ -13,8 +13,7 @@
     Element.prototype.$super = 'Element';
 
     Element.prototype.init = function(config) {
-        var $ = packeg('$');
-        this.super('Observer', 'init', []);
+        var $ = package('$');
 
         this.$Element_Config = {
             id: undefined,
@@ -32,11 +31,9 @@
             throw new Error('COM.GUI.Base.Element not contain in config `element`');
         }
 
-        this.$Element_Holder = typeof this.$Element_Config.holder === 'string' ?
-            $(this.$Element_Config.holder) : this.$Element_Config.holder;
+        this.$Element_Holder = $(this.$Element_Config.holder);
 
-        this.$Element_Element = typeof this.$Element_Config.element === 'string' ?
-            $(this.$Element_Config.element) : this.$Element_Config.element;
+        this.$Element_Element = $(this.$Element_Config.element);
 
         if(this.$Element_Config.class) {
             this.$Element_Element.addClass(this.$Element_Config.class);
@@ -49,10 +46,6 @@
         if(this.$Element_Config.id) {
             this.$Element_Element.attr('id', this.$Element_Config.id);
         }
-
-        this.registerEvents([
-            'render', 'hide', 'show', 'move', 'changeHtml'
-        ]);
     };
 
     /**
@@ -61,7 +54,6 @@
      */
     Element.prototype.render = function() {
         this.$Element_Holder.append(this.$Element_Element);
-        this.fireEvent('render');
         return this;
     };
 
@@ -108,7 +100,7 @@
      * @return {[type]} [description]
      */
     Element.prototype.getHTML = function() {
-        return this.$Element_Element.html();
+        return this.$Element_Element[0].outerHTML;
     };
 
     /**
@@ -125,7 +117,7 @@
      * @return {this}
      */
     Element.prototype.setHolder = function(holder) {
-        var $ = packeg('$');
+        var $ = package('$');
         this.$Element_Holder = typeof holder === 'string' ? $(holder) : holder;
         return this;
     };
@@ -136,7 +128,7 @@
      * @return {this}
      */
     Element.prototype.move = function(holder) {
-        var $ = packeg('$');
+        var $ = package('$');
 
         this.clean();
         this.setHolder(holder);
@@ -149,17 +141,16 @@
 
     Object.extend(
         Element,
-        packeg('COM.Extend'),
-        packeg('COM.Events.Observer'),
-        packeg('COM.GUI.Base.Extern').prototype
+        package('COM.Extend'),
+        package('COM.GUI.Base.Extern').prototype
     );
 
     Object.interface(
         Element,
-        packeg('COM.GUI.Interfaces.RenderInterface'),
-        packeg('COM.GUI.Interfaces.HolderInterface')
+        package('COM.GUI.Interfaces.RenderInterface'),
+        package('COM.GUI.Interfaces.HolderInterface')
     );
 
-    packeg('COM.GUI.Base.Element', Element);
+    package('COM.GUI.Base.Element', Element);
 
 })();

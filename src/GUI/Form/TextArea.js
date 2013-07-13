@@ -20,7 +20,7 @@
     };
 
     TextArea.prototype.$Field_CreateElement = function() {
-        var $ = packeg('$');
+        var $ = package('$');
         this.$TextArea_Element = $('<textarea>');
         return this.$TextArea_Element
             .val(this.$TextArea_Config.value);
@@ -28,9 +28,9 @@
 
     Object.extend(
         TextArea,
-        packeg('COM.GUI.Form.Field').prototype
+        package('COM.GUI.Form.Field').prototype
     );
 
-    packeg('COM.GUI.Form.TextArea', TextArea);
+    package('COM.GUI.Form.TextArea', TextArea);
 
 })();

@@ -15,7 +15,7 @@
      */
     Cache.createCache = function(objectToCache) {
         var i, max,
-            $ = packeg('$'),
+            $ = package('$'),
             size = this.getBoundingRect();
 
         this.cachedCanvas = $('<canvas>').get(0);
@@ -42,6 +42,6 @@
         return this;
     };
 
-    packeg('COM.Utils.Cache', Cache);
+    package('COM.Utils.Cache', Cache);
 
 })();

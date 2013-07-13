@@ -42,6 +42,6 @@
         }, 1000 / 60);
     };
 
-    packeg('COM.Utils.Animation', Animation);
+    package('COM.Utils.Animation', Animation);
 
 })();

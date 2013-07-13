@@ -11,5 +11,5 @@
     RenderInterface.render = 0;
     RenderInterface.clean = 0;
 
-    packeg('COM.GUI.Interfaces.RenderInterface', RenderInterface);
+    package('COM.GUI.Interfaces.RenderInterface', RenderInterface);
 })();

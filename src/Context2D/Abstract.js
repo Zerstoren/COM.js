@@ -90,5 +90,5 @@
         }
     };
 
-    packeg('COM.Context2d.Abstract', Abstract);
+    package('COM.Context2d.Abstract', Abstract);
 })();

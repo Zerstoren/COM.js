@@ -166,9 +166,9 @@
 
     Object.extend(
         Shape,
-        packeg('COM.Extend'),
-        packeg('COM.Events.Observer')
+        package('COM.Extend'),
+        package('COM.Events.Observer')
     );
 
-    packeg('COM.Shapes.Shape', Shape);
+    package('COM.Shapes.Shape', Shape);
 })();

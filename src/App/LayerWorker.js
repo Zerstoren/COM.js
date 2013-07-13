@@ -6,11 +6,11 @@
 
     // <!---- Расширение прототипа Layer ----> //
     LayerWorker.prototype.init = function(config) {
-        var worker = packeg('COM.Core.Worker');
+        var worker = package('COM.Core.Worker');
 
         this.$LayerWorker_CanUpdate = true;
 
-        this.$LayerWorker_Worker = new worker(packeg('COM.App.LayerCalculateWorker'));
+        this.$LayerWorker_Worker = new worker(package('COM.App.LayerCalculateWorker'));
         this.$LayerWorker_Worker.start();
 
         this.super('Layer', 'init', [config]);
@@ -154,8 +154,8 @@
 
     Object.extend(
         LayerWorker,
-        packeg('COM.App.Layer').prototype
+        package('COM.App.Layer').prototype
     );
 
-    packeg('COM.App.LayerWorker', LayerWorker);
+    package('COM.App.LayerWorker', LayerWorker);
 })();

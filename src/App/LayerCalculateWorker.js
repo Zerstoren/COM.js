@@ -245,5 +245,5 @@
         };
     };
 
-    packeg('COM.App.LayerCalculateWorker', LayerCalculateWorker);
+    package('COM.App.LayerCalculateWorker', LayerCalculateWorker);
 })();
