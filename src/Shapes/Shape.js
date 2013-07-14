@@ -20,7 +20,7 @@
         this.DrawInfo = {};
         this.DrawInfo.Position = {x: 0, y: 0};
         this.DrawInfo.Size = {width: 0, height: 0};
-        this.DrawInfo.DrawObjectName = _.uniqueId();
+        this.DrawInfo.DrawObjectName = Number.uniqueId();
         this.DrawInfo.DrawType = 'fill';
         this.DrawInfo.DrawAction = 'rect';
         this.DrawInfo.DrawFrom = 'from';
@@ -80,7 +80,7 @@
             update[param] = value;
             this.DrawInfo.DrawStyleApply.push([param, value]);
         } else {
-            _.each(params, function(key, value) {
+            params.forEach(function(key, value) {
                 param = this.$Shape_RenameParam(key);
                 update[param] = value;
                 this.DrawInfo.DrawStyleApply.push([param, value]);
@@ -166,9 +166,9 @@
 
     Object.extend(
         Shape,
-        packeg('COM.Extend'),
-        packeg('COM.Events.Observer')
+        package('COM.Extend'),
+        package('COM.Events.Observer')
     );
 
-    packeg('COM.Shapes.Shape', Shape);
+    package('COM.Shapes.Shape', Shape);
 })();

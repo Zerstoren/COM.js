@@ -34,7 +34,7 @@
     Text.prototype.setText = function(text) {
         this.DrawText = text.split("\n");
 
-        if(packeg('COM.Config.Debug') === true && packeg('COM.Config.DebugTextSize') === true) {
+        if(package('COM.Config.Debug') === true && package('COM.Config.DebugTextSize') === true) {
             var y = this.DrawStyle.space +
                 (this.DrawText.length * (this.DrawStyle.space + this.DrawStyle.size));
 
@@ -71,9 +71,9 @@
 
     Object.extend(
         Text,
-        packeg('COM.Shapes.Rectangle').prototype
+        package('COM.Shapes.Rectangle').prototype
     );
 
-    packeg('COM.Shapes.Text', Text);
+    package('COM.Shapes.Text', Text);
 
 })();

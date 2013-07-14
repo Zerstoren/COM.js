@@ -1,47 +1,103 @@
-var Layer = packeg('COM.App.LayerWorker');
-var Head = function() {
-    this.init();
-};
-
-Head.prototype.init = function() {
-    this.super('Observer', 'init');
-    this.super('Rectangle', 'init');
-    this.super('LayerInit', 'init');
-};
-
-Object.extend(
-    Head,
-    packeg('COM.Events.Observer'),
-    packeg('COM.Utils.Animation'),
-    packeg('COM.Utils.LayerInit'),
-    packeg('COM.Shapes.Rectangle').prototype
-);
-
-var rect = new Head();
-rect.setPosition(20, 20)
-    .setSize(20, 20);
-
-var rect1 = new Head();
-rect1.setPosition(0, 0)
-    .setSize(20, 20);
-
-var rect2 = new Head();
-rect2.setPosition(0, 0)
-    .setSize(20, 20);
-
-var rect3 = new Head();
-rect3.setPosition(0, 0)
-    .setSize(20, 20);
-
-
-
-layer = new Layer({
-    height: 300,
-    width: 600
+/*var login = new (package('COM.GUI.Form.Text'))({
+    placeholder: 'Type your name'
 });
 
-layer.push(rect);
-layer.push(rect1);
-layer.push(rect2);
-layer.push(rect3);
+var password = new (package('COM.GUI.Form.Password'))({
+    placeholder: 'Type your password'
+});
 
+var button = new (package('COM.GUI.Form.Button'))({
+    value: 'Send'
+});
+
+var select = new (package('COM.GUI.Form.Select'))({
+    data: [
+        {
+            value: 'test',
+            text: 'test'
+        },
+        {
+            value: 'test',
+            text: 'pref'
+        },
+        {
+            value: 'test',
+            text: 'send'
+        }
+    ]
+});
+
+var radiogroup = new (package('COM.GUI.Form.RadioGroup'))({
+    data: [
+        {
+            value: 'test',
+            text: 'test'
+        },
+        {
+            value: 'test2',
+            text: 'test2'
+        },
+        {
+            value: 'test3',
+            text: 'test3',
+            checked: true
+        }
+    ]
+});
+
+var checkboxgroup = new (package('COM.GUI.From.CheckboxGroup'))({
+    data: [
+        {
+            value: 'test',
+            text: 'test'
+        },
+        {
+            value: 'test2',
+            text: 'test2'
+        },
+        {
+            value: 'test3',
+            text: 'test3',
+            checked: true
+        }
+    ]
+});
+
+var toolbar = new (package('COM.GUI.Container.ToolBar'))({
+    holder: 'body',
+    left: [login, password, checkboxgroup],
+    right: [select, button, radiogroup]
+});
+
+toolbar.render();
+*/
+
+var Grid = package('COM.GUI.Grid');
+
+var rows = [];
+
+var hRow = new Grid.Row({
+    cells: ['Header Cell 1', 'Header Cell 2', 'Header Cell 3']
+});
+
+var fRow = new Grid.Row({
+    cells: ['Footer Cell 1', 'Footer Cell 2', 'Footer Cell 3']
+})
+
+for(var i = 10; i--;) {
+    var row = new (package('COM.GUI.Grid.Row'))({
+        cells: ['Cell 1', 'Cell 2', 'Cell 3']
+    });
+
+    rows.push(row);
+}
+
+var grid = new Grid.Grid({
+    holder: 'body',
+    caption: 'Yes',
+    rows: rows,
+    header: hRow,
+    footer: fRow
+});
+
+grid.render();

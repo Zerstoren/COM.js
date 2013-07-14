@@ -1,4 +1,9 @@
 (function() {
+    /**
+     * Класс для реализации объекта кнопки
+     *
+     * @package COM.GUI.Form.Button
+     */
     var Button = function(config) {
         this.init(config);
     };
@@ -17,7 +22,7 @@
         this.$Button_CreateButton();
 
         this.super('Element', 'init', [{
-            'html': this.$Button_Element,
+            'element': this.$Button_Element,
             'holder': this.$Button_Config.holder
         }]);
 
@@ -27,18 +32,22 @@
         ]);
     };
 
+    /**
+     * Создание HTML кнопки
+     * @return {voud}
+     */
     Button.prototype.$Button_CreateButton = function() {
-        var $ = packeg('$');
+        var $ = package('$');
         this.$Button_Element = $('<button>');
         this.$Button_Element.html(this.$Button_Config.value);
     };
 
     Object.extend(
         Button,
-        packeg('COM.GUI.Base.Element').prototype,
-        packeg('COM.Events.DomEvents')
+        package('COM.GUI.Base.Element').prototype,
+        package('COM.Events.DomEvents')
     );
 
-    packeg('COM.GUI.Form.Button', Button);
+    package('COM.GUI.Form.Button', Button);
 
 })();

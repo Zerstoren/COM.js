@@ -184,6 +184,6 @@
         return entered;
     };
 
-    packeg('COM.Events.LayerEvents', LayerEvents);
+    package('COM.Events.LayerEvents', LayerEvents);
 
 })();

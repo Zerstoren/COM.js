@@ -31,7 +31,7 @@
         this.$Layer_Canvas_Width = 0;
         this.$Layer_Canvas_Height = 0;
 
-        this.$Layer_Personal_Id = _.uniqueId('layer_');
+        this.$Layer_Personal_Id = Number.uniqueId('layer_');
         this.$Layer_Figures = {};  // Словарь всех фигур
         this.$Layer_Figures_List = [];  // Список всех фигур
         this.$Layer_Figures_Config = {};  // Конфиги фигур
@@ -68,7 +68,7 @@
             throw new Error('Figure already added to some layer');
         }
 
-        var name = _.uniqueId('figure_');
+        var name = Number.uniqueId('figure_');
 
         if(config) {
             delete config.name;
@@ -229,12 +229,10 @@
 
     Object.extend(
         Layer,
-        packeg('COM.Extend'),
-        packeg('COM.Events.Observer'),
-        packeg('COM.Events.DomEvents'),
-        packeg('COM.Events.LayerEvents')
+        package('COM.Extend'),
+        package('COM.Events.Observer')
     );
 
-    packeg('COM.App.Layer', Layer);
+    package('COM.App.Layer', Layer);
 
 })();

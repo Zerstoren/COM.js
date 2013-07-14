@@ -23,9 +23,9 @@
 
     Object.extend(
         Img,
-        packeg('COM.Shapes.Rectangle').prototype
+        package('COM.Shapes.Rectangle').prototype
     );
 
-    packeg('COM.Shapes.Image', Img);
+    package('COM.Shapes.Image', Img);
 
 })();

@@ -1,34 +1,176 @@
 (function() {
-
+    /**
+     * Базовый класс для реализации всех типов полей
+     *
+     * @package COM.GUI.Form.Field
+     */
     var Field = function() {
-
+        throw new Error('COM.GUI.Form.Field is abstract class');
     };
 
     Field.prototype.$super = 'Field';
 
-    Field.prototype.init = function() {
+    Field.prototype.init = function(cfg) {
+        this.$Field_Element = null;
 
+        this.$Field_Config = Object.merge({
+            value: 'field text',
+            placeholder: undefined
+        }, cfg || {});
+
+        this.$Field_Element = this.$Field_CreateElement();
+
+        this.$Field_InitElement();
+        this.$Field_InitDomEvents();
+
+        if(this.$Field_Config.placeholder) {
+            this.$Field_Element.attr('placeholder', this.$Field_Config.placeholder);
+        }
     };
 
+    /**
+     * Производит иницилизацию элемента в Element классе
+     * @return {void}
+     */
+    Field.prototype.$Field_InitElement = function() {
+        this.super('Element', 'init', [{
+            element: this.$Field_Element,
+            holder: this.$Field_Config.holder,
+            id: this.$Field_Config.id,
+            class: this.$Field_Config.class,
+            extractClass: this.$Field_Config.extractClass
+        }]);
+    };
+
+    /**
+     * Производит иницилизацию событий
+     * @return {void}
+     */
+    Field.prototype.$Field_InitDomEvents = function() {
+        this.super('DomEvents', 'init', [
+            this.$Field_Element,
+            this.$Field_Config
+        ]);
+    };
+
+    /**
+     * Возврашает значение инпута
+     * @return {string} значение инпута
+     */
     Field.prototype.getValue = function() {
-
+        return this.$Field_Element.val();
     };
 
-    Field.prototype.setValue = function() {
-
+    /**
+     * Устанавливает значение инпута
+     * @param  {string} val Значение инпута
+     * @return {this}
+     */
+    Field.prototype.setValue = function(val) {
+        this.$Field_Element.val(val);
+        return this;
     };
 
-    Field.prototype.validate = function(type) {
+    /**
+     * Устанавливает плейсохолдер элемента
+     * @param  {string} placeholder Значение плейсхолдера
+     * @return {this}
+     */
+    Field.prototype.setPlaceholder = function(placeholder) {
+        this.$Field_Config.placeholder = placeholder;
+        this.$Field_Element.attr('placeholder', placeholder);
+        return this;
+    };
 
+    /**
+     * Делает доступным для ввода данных
+     * @return {this}
+     */
+    Field.prototype.disable = function() {
+        this.$Field_Element.attr('disabled', 'disabled');
+        return this;
+    };
+
+    /**
+     * Делает не доступным для ввода данных
+     * @return {this}
+     */
+    Field.prototype.enable = function() {
+        this.$Field_Element.removeAttr('disabled');
+        return this;
+    };
+
+    /**
+     * Валидация элемента
+     * @param {string} null Тип валидации
+     * @param {mixed}  null параметры относительно типа валидации
+     * @return {boolean}
+     */
+    Field.prototype.validate = function() {
+        var args = Array.merge([], arguments),
+            type = args.shift();
+
+        switch(type) {
+            case 'Required':
+                return this.Validate_Method_Required();
+            case 'Pattern':
+                return this.Validate_Method_Pattern(args[0], args[1]);
+            case 'Match':
+                return this.Validate_Method_Match(args[0]);
+            default:
+                if(this['Validate_Method_' + type] === undefined) {
+                    throw new Error('Undefined validate type `' + type + '`');
+                }
+
+                return this['Validate_Method_' + type](args);
+        }
+    };
+
+    /**
+     * Тип валидации "обязательно для заполнения"
+     * @return {boolean} Результат валидации
+     */
+    Field.prototype.Validate_Method_Required = function() {
+        return !!this.getValue();
+    };
+
+    /**
+     * Тип валидации "Cовпадение по патерну"
+     * @return {boolean} Результат валидации
+     */
+    Field.prototype.Validate_Method_Pattern = function(pattern, flags) {
+        var value = this.getValue(),
+            regExp = new RegExp(pattern, flags);
+
+        return regExp.test(value);
+    };
+
+    /**
+     * Тип валидации "Совпадение с значением друго-го поля"
+     * @return {boolean} Результат валидации
+     */
+    Field.prototype.Validate_Method_Match = function(other) {
+        if(!other.hasInterface('COM.GUI.Interfaces.FieldInterface')) {
+            throw new Error('Validate Math argument dont have interface FieldInterface');
+        }
+
+        return this.getValue() === other.getValue();
+    };
+
+    /**
+     * Абстрактный метод, который должен быть перезаписан для формирования HTML
+     * @return {void}
+     */
+    Field.prototype.$Field_CreateElement = function() {
+        throw new Error('Field.$Field_CreateElement is abstract method and need be override');
     };
 
     Object.extend(
         Field,
-        packeg('COM.Extend'),
-        packeg('COM.GUI.Base.Element').prototype,
-        packeg('COM.Events.DomEvents')
+        package('COM.Events.DomEvents'),
+        package('COM.GUI.Base.Element').prototype
     );
 
-    packeg('COM.GUI.Form.Field', Field);
+    package('COM.GUI.Form.Field', Field);
 
 })();

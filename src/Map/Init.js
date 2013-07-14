@@ -26,9 +26,9 @@
 
     Object.extend(
         Map,
-        packeg('COM.Events.Observer')
+        package('COM.Events.Observer')
     );
 
-    packeg('COM.Map', Map);
+    package('COM.Map', Map);
 
 })();

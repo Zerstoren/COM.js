@@ -92,5 +92,5 @@
         return [x, y, width, height];
     };
 
-    packeg('COM.Context2d.Base', Base);
+    package('COM.Context2d.Base', Base);
 })();

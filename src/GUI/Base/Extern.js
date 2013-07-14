@@ -52,6 +52,6 @@
         }
     };
 
-    packeg('COM.GUI.Base.Extern', Extern);
+    package('COM.GUI.Base.Extern', Extern);
 
 })();

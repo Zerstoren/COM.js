@@ -5,15 +5,18 @@
      * из приходящих конфигов в классе-родителе
      * @type {Object}
      */
-    var Dom = {};
+    var DomEvents = {};
 
-    Dom.$super = 'DomEvents';
+    DomEvents.$super = 'DomEvents';
 
-    Dom.init = function(element, config) {
-        var ev,
-            $ = packeg('$');
+    DomEvents.init = function(element, config, isFormELement) {
+        var ev;
 
-        this.$DomEvents_Element = $(element);
+        if(!this.$super) {
+            throw new Error('this.$super is undefined and need be setup');
+        }
+
+        this.setEventsElement(element);
 
         this.$DomEvents_EventsDict = {
             // Mouse Events
@@ -23,7 +26,7 @@
             onMouseDown: this.$DomEvents_Element.mousedown.bind(this.$DomEvents_Element),
             onMouseUp: this.$DomEvents_Element.mouseup.bind(this.$DomEvents_Element),
             onMouseEnter: this.$DomEvents_Element.mouseenter.bind(this.$DomEvents_Element),
-            onMouseLeave: this.$DomEvents_Element.mouseleave.bind(this.$DomEvents_Element),
+            onMouselEave: this.$DomEvents_Element.mouseleave.bind(this.$DomEvents_Element),
             onMouseMove: this.$DomEvents_Element.mousemove.bind(this.$DomEvents_Element),
 
             // input and forms events
@@ -41,22 +44,23 @@
             unbind: this.$DomEvents_Element.unbind.bind(this.$DomEvents_Element)
         };
 
-        if(!this.$super) {
-            throw new Error('For DomEvents COM.Extend is required packeg');
-        }
-
         for(ev in this.$DomEvents_EventsDict) {
             this.add_new_method(
                 ev,
                 this.$DomEvents_EventsDict[ev],
-                Dom.$super
+                DomEvents.$super
             );
         }
 
-        this.domEventsRegister(config);
+        this.$DomEvents_DomEventsRegister(config);
     };
 
-    Dom.domEventsRegister = function(config) {
+    DomEvents.setEventsElement = function(element) {
+        var $ = package('$');
+        this.$DomEvents_Element = $(element);
+    };
+
+    DomEvents.$DomEvents_DomEventsRegister = function(config) {
         var item;
 
         if(!config) {
@@ -77,6 +81,6 @@
         }
     };
 
-    packeg('COM.Events.DomEvents', Dom);
+    package('COM.Events.DomEvents', DomEvents);
 
 })();

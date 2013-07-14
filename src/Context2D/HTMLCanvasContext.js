@@ -36,10 +36,10 @@
 
     Object.extend(
         Context2d,
-        packeg('COM.Context2d.Image'),
-        packeg('COM.Context2d.Base'),
-        packeg('COM.Context2d.Text'),
-        packeg('COM.Context2d.Abstract')
+        package('COM.Context2d.Image'),
+        package('COM.Context2d.Base'),
+        package('COM.Context2d.Text'),
+        package('COM.Context2d.Abstract')
     );
 
     HTMLCanvasElement.addContext('2d-com', Context2d);

@@ -18,6 +18,6 @@
         }.bind(this));
     };
 
-    packeg('COM.Utils.LayerInit', LayerInit);
+    package('COM.Utils.LayerInit', LayerInit);
 
 })();

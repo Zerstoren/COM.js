@@ -1,7 +1,7 @@
 /**
  * Класс-абстракция над веб сокетами. Доступны только современные браузеры.
  */
-(function(packeg) {
+(function(package) {
 
     Socket = function(host, port) {
         this.init(host, port);
@@ -120,7 +120,7 @@
      * @return {[type]} [description]
      */
     Socket.prototype.queryInQueue = function() {
-        return _.size(this.listeners);
+        return Object.size(this.listeners);
     };
 
     /**
@@ -129,7 +129,7 @@
      * @return {void}
      */
     Socket.prototype.onMessage = function(data) {
-        var parseJson = packeg('$.parseJson');
+        var parseJson = package('$.parseJson');
 
         if(data.async !== undefined && this.listeners[data.async]) {
             this.listeners[data.async](parseJson(data.data));
@@ -167,8 +167,8 @@
 
     Object.extend(
         Socket,
-        packeg('COM.Events.Observer')
+        package('COM.Events.Observer')
     );
 
-    packeg('COM.Socket', Socket);
-})(packeg);
+    package('COM.Socket', Socket);
+})(package);

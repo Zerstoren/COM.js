@@ -144,9 +144,9 @@
 
     Object.extend(
         GroupShapes,
-        packeg('COM.Extend'),
-        packeg('COM.Utils.Cache')
+        package('COM.Extend'),
+        package('COM.Utils.Cache')
     );
 
-    packeg('COM.Shapes.GroupShapes', GroupShapes);
+    package('COM.Shapes.GroupShapes', GroupShapes);
 })();
