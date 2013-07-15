@@ -68,12 +68,12 @@
 
         eventListeners = this.$Observer_EventsHandler[eventName];
 
-        if(eventListeners[i] === eventFn) {
-            eventListeners.slice(i, 1);
+        try {
+            Array.remove(this.$Observer_EventsHandler[eventName], eventFn);
             return true;
+        } catch(e) {
+            throw new Error('Function is not subscribe for current event');
         }
-
-        return false;
     };
 
     /**
@@ -111,8 +111,8 @@
      * @return {void}
      */
     Observer.removeEvents = function(eventsList) {
-        for(var i = 0; i < eventList.length; i++) {
-            delete this.$Observer_EventsHandler[eventList];
+        for(var i = 0; i < eventsList.length; i++) {
+            delete this.$Observer_EventsHandler[eventsList[i]];
         }
     };
 
