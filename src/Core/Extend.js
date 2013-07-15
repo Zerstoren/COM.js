@@ -20,7 +20,7 @@
             throw new Error(object + '_' + fn + ' not exist in current class');
         }
 
-        this[name].apply(this, args);
+        return this[name].apply(this, args);
     };
 
     /**
@@ -29,11 +29,11 @@
      * @return {boolean}             Расширялся ли этот метод
      */
     Extend.hasInstance = function(instancePath) {
-        var instance = package(interfacePath),
+        var instance = package(instancePath),
             instanceName = instance.prototype ? instance.prototype.$super : instance.$super;
 
-        if(interfaceName === undefined) {
-            throw new Error('instance by path ' + interfacePath + ' not found');
+        if(instanceName === undefined) {
+            throw new Error('instance by path ' + instanceName + ' not found');
         }
 
         return this['$$super_instance_' + instanceName] === instanceName;
@@ -75,7 +75,7 @@
     /**
      * Производит полную очистку объекта от элементов
      * !ВНИМАНИЕ - это может быть опасно. Убедитесь, что больше
-     * не осталось используемых ссылок
+     * не осталось используемых ссылок или ждите ошибок, чтоб выловить их
      */
     Extend.$_clearMemory_$ = function() {
         for(var i in this) {
