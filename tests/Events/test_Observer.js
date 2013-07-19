@@ -11,7 +11,7 @@ describe('COM.Events.Observer', function() {
 
     handler = function() {};
 
-    it('registerEvents and hasEvent', function() {
+    it('registerEvents && hasEvent', function() {
         var item = new Proto();
         item.init();
 

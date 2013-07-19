@@ -28,6 +28,6 @@
 
     Array.is = function(array) {
         return array instanceof Array;
-    }
+    };
 
 })();

@@ -4,8 +4,24 @@
         <script type="text/javascript" src="buster/buster-extend.js"></script>
         <script type="text/javascript">
             buster.spec.expose();
-        </script>
 
+            (function() {
+                var el;
+
+                window.createHolder = function() {
+                    el = document.createElement('div');
+                    el.style.display = 'none';
+                    el.setAttribute('id', 'holder');
+
+                    document.getElementsByTagName('body')[0].appendChild(el);
+                }
+
+                window.removeHolder = function() {
+                    document.getElementsByTagName('body')[0].removeChild(el);
+                }
+
+            })();
+        </script>
         <!-- Source files -->
         <script type="text/javascript" src="../src/third_party/import.js" defer></script>
         <script type="text/javascript" src="../src/third_party/jquery.js" defer></script>
@@ -47,6 +63,7 @@
 
         <script type="text/javascript" src="../src/GUI/Interfaces/RenderInterface.js" defer></script>
         <script type="text/javascript" src="../src/GUI/Interfaces/HolderInterface.js" defer></script>
+        <script type="text/javascript" src="../src/GUI/Interfaces/FieldInterface.js" defer></script>
         <script type="text/javascript" src="../src/GUI/Interfaces/RowInterface.js" defer></script>
         <script type="text/javascript" src="../src/GUI/Interfaces/CellInterface.js" defer></script>
         <script type="text/javascript" src="../src/GUI/Interfaces/DataMapperInterface.js" defer></script>
@@ -72,7 +89,6 @@
         <script type="text/javascript" src="../src/GUI/Grid/Row.js" defer></script>
         <script type="text/javascript" src="../src/GUI/Grid/Grid.js" defer></script>
 
-
         <!-- Testing files -->
         <script type="text/javascript" src="third_party/test_import.js" defer></script>
 
@@ -85,6 +101,21 @@
         <script type="text/javascript" src="Core/test_Extend.js" defer></script>
 
         <script type="text/javascript" src="Events/test_Observer.js" defer></script>
+
+        <script type="text/javascript" src="GUI/Base/test_Element.js" defer></script>
+        <script type="text/javascript" src="GUI/Base/test_ElementMapper.js" defer></script>
+
+        <script type="text/javascript" src="GUI/Form/test_Field.js" defer></script>
+        <script type="text/javascript" src="GUI/Form/test_Button.js" defer></script>
+        <script type="text/javascript" src="GUI/Form/test_Text.js" defer></script>
+        <script type="text/javascript" src="GUI/Form/test_Password.js" defer></script>
+        <script type="text/javascript" src="GUI/Form/test_TextArea.js" defer></script>
+        <script type="text/javascript" src="GUI/Form/test_Number.js" defer></script>
+        <script type="text/javascript" src="GUI/Form/test_Select.js" defer></script>
+        <script type="text/javascript" src="GUI/Form/test_Radio.js" defer></script>
+        <script type="text/javascript" src="GUI/Form/test_RadioGroup.js" defer></script>
+        <script type="text/javascript" src="GUI/Form/test_Checkbox.js" defer></script>
+        <script type="text/javascript" src="GUI/Form/test_CheckboxGroup.js" defer></script>
 
     </head>
     <body>

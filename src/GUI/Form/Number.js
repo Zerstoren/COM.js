@@ -29,16 +29,25 @@
     Number.prototype.$Field_CreateElement = function() {
         var $ = package('$');
         this.$Number_Element = $('<input>');
-        this.$Number_Element
-            .attr('type', 'number')
-            .attr('max', this.$Number_Config.max)
-            .attr('min', this.$Number_Config.min)
-            .attr('step', this.$Number_Config.step);
+        this.$Number_Element.attr('type', 'number');
+        this.setMax(this.$Number_Config.max);
+        this.setMin(this.$Number_Config.min);
+        this.setStep(this.$Number_Config.step);
         this.setValue(this.$Number_Config.value);
 
-        this.super('Field', 'init', [this.$Number_Config]);
-
         return this.$Number_Element;
+    };
+
+    Number.prototype.setMax = function(max) {
+        this.$Number_Element.attr('max', parseFloat(max));
+    };
+
+    Number.prototype.setMin = function(min) {
+        this.$Number_Element.attr('min', parseFloat(min));
+    };
+
+    Number.prototype.setStep = function(step) {
+        this.$Number_Element.attr('step', parseFloat(step));
     };
 
     /**

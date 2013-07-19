@@ -25,26 +25,55 @@ buster.assertions.add("isEmptyObject", {
 buster.assertions.add("elementExists", {
     assert: function(selector) {
         var element = jQuery(selector);
-        return element.length === 0;
+        return element.length !== 0;
     },
 
     refute: function(selector) {
         var element = jQuery(selector);
-        return element.length !== 0;
+        return element.length === 0;
     },
 
     assertMessage: "Element is not exists by selector ${0}",
     refuteMessage: "Element is exists by selector ${0}"
 });
 
-buster.assertions.add("raises", {
-    assert: function(fn, context, args) {
-        try {
-            fn.apply(context, args);
-            return false;
-        } catch(e) {
-            return true;
+buster.assertions.add("sameJquery", {
+    assert: function(target, source) {
+        if(!(target instanceof jQuery)) {
+            throw new Error('Target is not jquery instance');
         }
+
+        if(!(source instanceof jQuery)) {
+            throw new Error('Source is not jquery instance');
+        }
+
+        target.attr('data-buster-same', '1');
+        result = source.attr('data-buster-same') === '1';
+        target.removeAttr('data-buster-same');
+
+        return result;
     },
-    assertMessage: "Method not throw error"
+
+    refute: function(target, source) {
+        target.attr('data-buster-same', '1');
+        result = source.attr('data-buster-same') !== '1';
+        target.removeAttr('data-buster-same');
+
+        return result;
+    },
+    assertMessage: "jQuery objects is not same",
+    refuteMessage: "jQuery objects is same"
+
+});
+
+buster.assertions.add("arrayContain", {
+    assert: function(list, value) {
+        return list.indexOf(value) !== -1;
+    },
+
+    refute: function(list, value) {
+        return list.indexOf(value) === -1;
+    },
+    assertMessage: "Array not contain value",
+    refuteMessage: "Array is contain value"
 });

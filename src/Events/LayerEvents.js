@@ -148,8 +148,9 @@
 
     LayerEvents.$LayerEvents_ZoneIn = function(type, ev, block) {
         var i, figure,
-            entered = [],
-            block = block ? block : this.$LayerEvents_EventsList[type];
+            entered = [];
+
+        block = block ? block : this.$LayerEvents_EventsList[type];
 
         for(i = block.length; i--;) {
             figure = this.getFigure(block[i]);
@@ -168,8 +169,9 @@
     LayerEvents.$LayerEvents_ZoneOut = function(type, ev, block) {
         var i,
             entered = [],
-            figure = [],
-            block = block ? block : this.$LayerEvents_EventsList[type];
+            figure = [];
+
+        block = block ? block : this.$LayerEvents_EventsList[type];
 
         for(i = block.length; i--;) {
             figure = this.getFigure(block[i]);

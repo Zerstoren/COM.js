@@ -14,7 +14,7 @@
         this.$Field_Element = null;
 
         this.$Field_Config = Object.merge({
-            value: 'field text',
+            value: '',
             placeholder: undefined
         }, cfg || {});
 
@@ -24,7 +24,11 @@
         this.$Field_InitDomEvents();
 
         if(this.$Field_Config.placeholder) {
-            this.$Field_Element.attr('placeholder', this.$Field_Config.placeholder);
+            this.setPlaceholder(this.$Field_Config.placeholder);
+        }
+
+        if(this.$Field_Config.value) {
+            this.setValue(this.$Field_Config.value);
         }
     };
 
@@ -33,13 +37,9 @@
      * @return {void}
      */
     Field.prototype.$Field_InitElement = function() {
-        this.super('Element', 'init', [{
-            element: this.$Field_Element,
-            holder: this.$Field_Config.holder,
-            id: this.$Field_Config.id,
-            class: this.$Field_Config.class,
-            extractClass: this.$Field_Config.extractClass
-        }]);
+        this.$Field_Config.element = this.$Field_Element;
+
+        this.super('Element', 'init', [this.$Field_Config]);
     };
 
     /**
@@ -110,20 +110,11 @@
         var args = Array.merge([], arguments),
             type = args.shift();
 
-        switch(type) {
-            case 'Required':
-                return this.Validate_Method_Required();
-            case 'Pattern':
-                return this.Validate_Method_Pattern(args[0], args[1]);
-            case 'Match':
-                return this.Validate_Method_Match(args[0]);
-            default:
-                if(this['Validate_Method_' + type] === undefined) {
-                    throw new Error('Undefined validate type `' + type + '`');
-                }
-
-                return this['Validate_Method_' + type](args);
+        if(this['Validate_Method_' + type] === undefined) {
+            throw new Error('Undefined validate type `' + type + '`');
         }
+
+        return this['Validate_Method_' + type].apply(this, args);
     };
 
     /**
@@ -169,6 +160,11 @@
         Field,
         package('COM.Events.DomEvents'),
         package('COM.GUI.Base.Element').prototype
+    );
+
+    Object.interface(
+        Field,
+        package('COM.GUI.Interfaces.FieldInterface')
     );
 
     package('COM.GUI.Form.Field', Field);

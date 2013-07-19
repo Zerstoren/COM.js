@@ -1,11 +1,13 @@
 /**
  * Класс-абстракция над веб сокетами. Доступны только современные браузеры.
  */
-(function(package) {
+(function() {
 
     Socket = function(host, port) {
         this.init(host, port);
     };
+
+    Socket.Counter = 0;
 
     Socket.prototype.$super = 'Socket';
 
@@ -24,8 +26,9 @@
         }
 
         this.listeners = {};
+        this.super('Observer', 'init');
         this.registerEvents([
-            'message', 'close', 'connect', 'reconnect', 'connect_failed'
+            'close', 'connect', 'reconnect', 'connect_failed', 'error'
         ]);
 
         // Bugfix for old Firefox MozWebSocket
@@ -44,32 +47,50 @@
             this.need_reconnect = reconnect;
         }
 
+        if(this.ws !== undefined) {
+            return;
+        }
+
         this.ws = new WebSocket('ws://' + this.host + ':' + this.port + '/');
         this.ws.onopen = this.onOpen.bind(this);
         this.ws.onclose = this.onClose.bind(this);
         this.ws.onmessage = this.onMessage.bind(this);
+        this.ws.onerror = this.onError.bind(this);
     };
 
     /**
      * Отправка сообщения на сервер
-     * @param  {string}   module  Имя модуля
+     * @param  {string}   module  Имя модуля или RESTful имя
      * @param  {object}   message Объект сообщения
      * @param  {function} asyncFn Callback функция, для асинхронных запросов
      * @return {void}
      */
     Socket.prototype.send = function(module, message, asyncFn) {
-        if(this.ws.send === undefined) {
+        if(module.length !== 1 && (module[0] !== '/' || module[module.length -1] === '/')) {
+            throw new Error('Wrong path type');
+        }
+
+        var data, asyncName = false;
+
+        if(this.ws === undefined || this.ws.send === undefined) {
             throw new Error('WebSocket not connected to server yet');
         }
 
-        console.log('Send message:', modul, data);
+        console.log('Send message:', module, message);
 
-        if(async) {
-            var asyncName = Math.random();
+        if(asyncFn) {
+            asyncName = Math.random();
             this.listeners[asyncName] = asyncFn;
-            data.async = asyncName;
+            Socket.Counter += 1;
         }
 
+        data = {
+            module: module,
+            message: message,
+            async: asyncName
+        };
+
+        this.ws.send(JSON.stringify(data));
     };
 
     /**
@@ -90,8 +111,6 @@
      * @return {void}
      */
     Socket.prototype.subscribe = function(eventName, eventFn) {
-        eventName = '$' + eventName;
-
         if(this.hasEvent(eventName) === false) {
             this.registerEvents([eventName]);
         }
@@ -101,26 +120,16 @@
 
     /**
      * Отписка от сообщениф с сервера
-     * @param  {string}   eventName Имя события, на которое происходит подписка
+     * @param  {string}   eventName Имя события, от которых происходит отписка
      * @param  {function} eventFn   Callback функция, подписки
      * @return {void}
      */
     Socket.prototype.unsubscribe = function(eventName, eventFn) {
-        eventName = '$' + eventName;
-
-        if(this.hasEvent(eventName) === false) {
-            this.registerEvents([eventName]);
-        }
-
         this.super('Observer', 'unsubscribe', [eventName, eventFn]);
-    };
 
-    /**
-     * Возвращает кол-во запросов, которые ждут ответа от сервера
-     * @return {[type]} [description]
-     */
-    Socket.prototype.queryInQueue = function() {
-        return Object.size(this.listeners);
+        if(this.sumEventListenters(eventName) === 0) {
+            this.removeEvents([eventName]);
+        }
     };
 
     /**
@@ -132,12 +141,17 @@
         var parseJson = package('$.parseJson');
 
         if(data.async !== undefined && this.listeners[data.async]) {
-            this.listeners[data.async](parseJson(data.data));
+            this.listeners[data.async](JSON.parse(data.data));
             delete this.listeners[data.async];
+            Socket.Counter -= 1;
             return;
         }
 
-        self.fireEvent('message', parseJson(data.data));
+        if(this.hasEvent(data.module)) {
+            this.fireEvent(data.module, parseJson(data.data));
+        }
+
+        console.log('Get message:', data.module, parseJson(data.data));
     };
 
     /**
@@ -158,17 +172,28 @@
      */
     Socket.prototype.onClose = function() {
         if(this.need_reconnect) {
-            this.connect(true);
+            var self = this;
+            this.ws.close();
+            this.ws = undefined;
+            setTimeout(function() {
+                self.connect(true);
+            }, 3000);
         } else {
             window.removeEventListener('beforeunload', this.close.bind());
+            this.fireEvent('close');
         }
+    };
+
+    Socket.prototype.onError = function(a,b,c) {
+        this.fireEvent('error');
     };
 
 
     Object.extend(
         Socket,
+        package('COM.Extend'),
         package('COM.Events.Observer')
     );
 
     package('COM.Socket', Socket);
-})(package);
+})();

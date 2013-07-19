@@ -36,7 +36,8 @@
             throw new Error('instance by path ' + instanceName + ' not found');
         }
 
-        return this['$$super_instance_' + instanceName] === instanceName;
+        return this['$$super_instance_' + instanceName] === instanceName ||
+            this.$super === instanceName;
     };
 
     /**

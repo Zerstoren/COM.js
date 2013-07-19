@@ -32,6 +32,28 @@
         ]);
     };
 
+    Button.prototype.setText = function(content) {
+        if(String.is(content)) {
+            this.$Button_Element.html(content);
+            this.$Button_Config.value = content;
+        } else if(content === undefined) {
+            this.$Button_Element.html('');
+            this.$Button_Config.value = '';
+        } else {
+            if(
+                !content.hasInterface('COM.GUI.Interfaces.RenderInterface') ||
+                !content.hasInterface('COM.GUI.Interfaces.HolderInterface')
+            ) {
+                throw new Error('Content don`t have Render or Holder interfaces');
+            }
+
+            this.$Button_Element.empty();
+            content.setHolder(this.$Button_Element);
+            content.render();
+            this.$Button_Config.value = content;
+        }
+    };
+
     /**
      * Создание HTML кнопки
      * @return {voud}
@@ -39,7 +61,7 @@
     Button.prototype.$Button_CreateButton = function() {
         var $ = package('$');
         this.$Button_Element = $('<button>');
-        this.$Button_Element.html(this.$Button_Config.value);
+        this.setText(this.$Button_Config.value);
     };
 
     Object.extend(

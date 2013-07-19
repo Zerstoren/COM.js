@@ -1,7 +1,8 @@
 (function() {
     /**
-     * Дата маппер, позволяет производить действия над группами элементов
-     * которые имеют интерфейсы RenderInterface и HolderInterface.
+     * Шаблон проектирования Composite, позволяет производить действия над группами элементов
+     * которые имеют интерфейсы RenderInterface и HolderInterface. Так-же может включать
+     * в себя любые элементы, которые имеют общий интерфейс
      *
      * В то-же время сам Mapper имплементирует эти интерфейсы и может
      * использоваться как отдельный элемент.
@@ -45,10 +46,12 @@
     };
 
     /**
-     *
+     * Remove all mapped elements
+     * @return {this}
      */
     ElementMapper.prototype.clear = function() {
         this.$ElementMapper_Mapped = [];
+        return this;
     };
 
     /**

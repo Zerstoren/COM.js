@@ -60,7 +60,7 @@
      * @return {strig}        Идентификатор фигуры
      */
     Layer.prototype.push = function(figure, config) {
-        if(figure.hasInstance('Rectangle') === false) {
+        if(figure.hasInstance('COM.Shapes.Rectangle') === false) {
             throw new Error('Added figure is not extended from COM.Shapes.Rectangle');
         }
 
@@ -219,8 +219,7 @@
         tmp.style.zIndex = config.zindex;
 
         tmp.width = config.width === 'auto' ? document.innerWidth : config.width,
-        tmp.height = config.height === 'auto' ? document.innerHeight : config.height
-
+        tmp.height = config.height === 'auto' ? document.innerHeight : config.height;
 
         holder.appendChild(tmp);
         this.$Layer_Element = tmp;
@@ -230,7 +229,9 @@
     Object.extend(
         Layer,
         package('COM.Extend'),
-        package('COM.Events.Observer')
+        package('COM.Events.Observer'),
+        package('COM.Events.DomEvents'),
+        package('COM.Events.LayerEvents')
     );
 
     package('COM.App.Layer', Layer);

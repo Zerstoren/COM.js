@@ -4,6 +4,8 @@
         this.init(config);
     };
 
+    LayerWorker.prototype.$super = 'LayerWorker';
+
     // <!---- Расширение прототипа Layer ----> //
     LayerWorker.prototype.init = function(config) {
         var worker = package('COM.Core.Worker');

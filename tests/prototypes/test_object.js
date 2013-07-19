@@ -87,16 +87,20 @@ describe("Prototype Object", function() {
         refute.isUndefined(Imp.prototype.$$interface_InterfaceExample);
 
         // Class don`t have method for interface
-        var Imp = function() {};
+        Imp = function() {};
         Imp.prototype.method1 = function() {};
-        assert.raises(Object.interface, this, [Imp, InterfaceExample]);
+        assert.exception(function() {
+            Object.interface(Imp, InterfaceExample);
+        });
 
         // Class method don`t have needs arguments
         // Class don`t have method for interface
-        var Imp = function() {};
+        Imp = function() {};
         Imp.prototype.method1 = function() {};
         Imp.prototype.method2 = function() {};
-        assert.raises(Object.interface, this, [Imp, InterfaceExample]);
+        assert.exception(function() {
+            Object.interface(Imp, InterfaceExample);
+        });
     });
 
     it("merge", function() {

@@ -7,8 +7,6 @@
     LayerInit.init = function() {
         this.registerEvents(['pushToLayer', 'removeFromLayer']);
 
-        this.moveToAnimate = false;
-
         this.subscribe('pushToLayer', function(layer) {
             this.layer = layer;
         }.bind(this));

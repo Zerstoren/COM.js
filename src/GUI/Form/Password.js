@@ -12,7 +12,6 @@
 
     Password.prototype.init = function(cfg) {
         this.$Password_Config = Object.merge({
-            value: '',
             class: 'field-password'
         }, cfg || {});
 
@@ -23,8 +22,7 @@
         var $ = package('$');
         this.$Password_Element = $('<input>');
         return this.$Password_Element
-            .attr('type', 'password')
-            .val(this.$Password_Config.value);
+            .attr('type', 'password');
     };
 
     Object.extend(

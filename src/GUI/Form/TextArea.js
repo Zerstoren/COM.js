@@ -12,7 +12,6 @@
 
     TextArea.prototype.init = function(cfg) {
         this.$TextArea_Config = Object.merge({
-            value: '',
             class: 'field-textarea'
         }, cfg || {});
 

@@ -21,6 +21,7 @@
             extractClass: undefined,
             holder: undefined,
             element: undefined,
+            content: undefined,
 
             visible: true
         };
@@ -46,6 +47,14 @@
         if(this.$Element_Config.id) {
             this.$Element_Element.attr('id', this.$Element_Config.id);
         }
+
+        if(this.$Element_Config.visible === false) {
+            this.hide();
+        }
+
+        if(String.is(this.$Element_Config.content)) {
+            this.$Element_Element.html(this.$Element_Config.content);
+        }
     };
 
     /**
@@ -63,7 +72,6 @@
      */
     Element.prototype.hide = function() {
         this.css({display: 'none'});
-        this.fireEvent('hide');
         return this;
     };
 
@@ -72,8 +80,7 @@
      * @return {void}
      */
     Element.prototype.show = function() {
-        this.css({display: 'block'});
-        this.fireEvent('show');
+        this.css({display: ''});
         return this;
     };
 
@@ -93,14 +100,6 @@
      */
     Element.prototype.clean = function() {
         this.$Element_Element.detach();
-    };
-
-    /**
-     * Возвращает HTML код, данного блока
-     * @return {[type]} [description]
-     */
-    Element.prototype.getHTML = function() {
-        return this.$Element_Element[0].outerHTML;
     };
 
     /**
@@ -129,12 +128,7 @@
      * @return {this}
      */
     Element.prototype.move = function(holder) {
-        var $ = package('$');
-
-        this.clean();
         this.setHolder(holder);
-
-        this.fireEvent('move');
         this.render();
 
         return this;

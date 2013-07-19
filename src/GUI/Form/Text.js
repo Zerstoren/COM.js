@@ -12,8 +12,6 @@
 
     Text.prototype.init = function(cfg) {
         this.$Text_Config = Object.merge({
-            value: '',
-            placeholder: '',
             class: 'field-text'
         }, cfg || {});
 
@@ -24,8 +22,7 @@
         var $ = package('$');
         this.$Text_Element = $('<input>');
         return this.$Text_Element
-            .attr('type', 'text')
-            .val(this.$Text_Config.value);
+            .attr('type', 'text');
     };
 
     Object.extend(

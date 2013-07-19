@@ -12,7 +12,9 @@ describe("Prototype Array", function() {
         assert.equals(list, []);
 
         list = [];
-        assert.raises(Array.remove, this, [list, 25]);
+        assert.exception(function() {
+            Array.remove(list, 25);
+        });
     });
 
     it("merge", function() {
